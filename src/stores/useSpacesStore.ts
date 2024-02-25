@@ -17,7 +17,7 @@ interface SpacesState {
   setActiveSpaceTitle: (title: string) => void;
 }
 
-export const useSpacesStore = create<SpacesState>((set) => ({
+const useSpacesStore = create<SpacesState>((set) => ({
   spaces: [],
   activeSpaceId: null,
   activeSpaceTitle: null,
@@ -25,3 +25,5 @@ export const useSpacesStore = create<SpacesState>((set) => ({
   setActiveSpaceId: (id) => set({ activeSpaceId: id }),
   setActiveSpaceTitle: (title) => set({ activeSpaceTitle: title }),
 }));
+
+export default useSpacesStore;

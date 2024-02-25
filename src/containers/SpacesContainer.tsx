@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { NavBar } from '../components';
 import { useSpaces } from '../hooks';
+import TasksContainer from './TasksContainer';
 
 function SpacesContainer() {
   const { spaces, setActiveSpaceTitle, activeSpaceTitle, setActiveSpaceId } =
@@ -23,7 +24,7 @@ function SpacesContainer() {
         onElementClick={handleElementClick}
         onAddElement={() => console.log('Engade Espazo')}
       />
-      <div>TasksContainer</div>
+      <TasksContainer />
     </>
   );
 }
