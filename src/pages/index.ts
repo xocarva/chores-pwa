@@ -1,4 +1,5 @@
-import Home from './Home';
 import NotFound from './NotFound';
+import Spaces from './Spaces';
+import Login from './Login';
 
-export { Home, NotFound };
+export { NotFound, Spaces, Login };
