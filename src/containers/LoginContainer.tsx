@@ -28,7 +28,7 @@ function LoginContainer({ onToggleForm }: LoginContainerProps) {
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : 'Algo foi mal. Téntao de novo máis tarde.'
+          : 'Algo foi mal, téntao de novo máis tarde'
       );
     }
   };

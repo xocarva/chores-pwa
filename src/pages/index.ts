@@ -1,6 +1,6 @@
 import NotFound from './NotFound';
-import Spaces from './Spaces';
+import SpacesPage from './SpacesPage';
 import Login from './Login';
 import AuthPage from './AuthPage';
 
-export { NotFound, Spaces, Login, AuthPage };
+export { NotFound, SpacesPage, Login, AuthPage };

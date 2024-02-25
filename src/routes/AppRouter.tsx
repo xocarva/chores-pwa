@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { AuthPage, Spaces, NotFound } from '../pages';
+import { AuthPage, SpacesPage, NotFound } from '../pages';
 import { ProtectedRoute } from '../components';
 import { useAuth, useRedirect } from '../hooks';
 
@@ -30,10 +30,10 @@ function AppRouter() {
         }
       />
       <Route
-        path="/spaces"
+        path="/spaces/*"
         element={
           <ProtectedRoute>
-            <Spaces />
+            <SpacesPage />
           </ProtectedRoute>
         }
       />

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRedirectStore } from '../stores/useRedirectStore';
+import { useRedirectStore } from '../stores';
 
 export const useRedirect = () => {
   const navigate = useNavigate();
