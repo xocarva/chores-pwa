@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Login, Spaces, NotFound } from '../pages';
+import { AuthPage, Spaces, NotFound } from '../pages';
 import { ProtectedRoute } from '../components';
 import { useAuth, useRedirect } from '../hooks';
 
@@ -11,7 +11,23 @@ function AppRouter() {
     <Routes>
       <Route
         path="/login"
-        element={isAuthenticated ? <Navigate to="/spaces" /> : <Login />}
+        element={
+          isAuthenticated ? (
+            <Navigate to="/spaces" />
+          ) : (
+            <AuthPage formType="login" />
+          )
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          isAuthenticated ? (
+            <Navigate to="/spaces" />
+          ) : (
+            <AuthPage formType="register" />
+          )
+        }
       />
       <Route
         path="/spaces"
