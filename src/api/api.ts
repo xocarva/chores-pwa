@@ -28,7 +28,13 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      useRedirectStore.getState().setRedirectPath('/login');
+      if (error.config.headers['X-Is-Login-Attempt'] === 'true') {
+        throw new Error('Credenciais incorrectas');
+      } else {
+        useRedirectStore.getState().setRedirectPath('/login');
+      }
+    } else {
+      throw new Error('Algo foi mail. Téntao de novo máis tarde.');
     }
     return Promise.reject(error);
   }

@@ -1,35 +1,44 @@
-import { useState } from 'react';
-import { useAuth } from '../hooks';
+/* eslint-disable react/jsx-props-no-spreading */
+import { FormEventHandler } from 'react';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { Button, TextField, Typography } from '@mui/material';
+import { LoginFormInputs } from '../schemas';
 
-function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const { login } = useAuth();
+interface LoginFormProps {
+  onSubmit: FormEventHandler<HTMLFormElement>;
+  onToggleForm: () => void;
+  register: UseFormRegister<LoginFormInputs>;
+  errors: FieldErrors<LoginFormInputs>;
+  errorMessage: string;
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await login(email, password);
-      // Redirigir al usuario o mostrar mensaje de éxito
-    } catch (error) {
-      console.error('Login failed:', error);
-      // Manejar error de login
-    }
-  };
-
+function LoginForm({
+  onSubmit,
+  onToggleForm,
+  register,
+  errors,
+  errorMessage,
+}: LoginFormProps) {
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+    <form onSubmit={onSubmit}>
+      <TextField
+        label="Email"
+        variant="outlined"
+        {...register('email')}
+        error={Boolean(errors.email)}
+        helperText={errors.email?.message}
       />
-      <input
+      <TextField
+        label="Contrasinal"
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        variant="outlined"
+        {...register('password')}
+        error={Boolean(errors.password)}
+        helperText={errors.password?.message}
       />
-      <button type="submit">Login</button>
+      {errorMessage && <Typography color="error">{errorMessage}</Typography>}
+      <Button type="submit">Login</Button>
+      <Button onClick={onToggleForm}>¿Non tes conta? Rexístrate</Button>
     </form>
   );
 }

@@ -1,16 +1,15 @@
-import { useAuthStore } from '../stores';
 import { api } from '../api';
+import { useAuthStore } from '../stores';
 
 export const useAuth = () => {
   const login = async (email: string, password: string) => {
-    try {
-      const { data } = await api.post('/login', { email, password });
-      localStorage.setItem('token', data.token);
-      useAuthStore.getState().login(data.userName);
-    } catch (error) {
-      console.error('Login error', error);
-      throw error;
-    }
+    const { data } = await api.post(
+      '/login',
+      { email, password },
+      { headers: { 'X-Is-Login-Attempt': 'true' } }
+    );
+    localStorage.setItem('token', data.token);
+    useAuthStore.getState().login(data.userName);
   };
 
   const logout = () => {
