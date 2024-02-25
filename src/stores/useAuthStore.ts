@@ -6,7 +6,7 @@ const initialState = {
   userName: localStorage.getItem('userName') || null,
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
+const useAuthStore = create<AuthState>((set) => ({
   ...initialState,
   login: (userName: string) => {
     localStorage.setItem('userName', userName);
@@ -24,3 +24,5 @@ export const useAuthStore = create<AuthState>((set) => ({
     });
   },
 }));
+
+export default useAuthStore;

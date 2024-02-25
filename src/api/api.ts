@@ -33,8 +33,14 @@ api.interceptors.response.use(
       } else {
         useRedirectStore.getState().setRedirectPath('/login');
       }
+    } else if (
+      error.response &&
+      error.response.status === 409 &&
+      error.config.headers['X-Is-Register-Attempt'] === 'true'
+    ) {
+      throw new Error('Este email xa está rexistrado');
     } else {
-      throw new Error('Algo foi mail. Téntao de novo máis tarde.');
+      throw new Error('Algo foi mail, téntao de novo máis tarde');
     }
     return Promise.reject(error);
   }

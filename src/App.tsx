@@ -1,7 +1,13 @@
+import { GlobalSnackbarContainer } from './containers';
 import AppRouter from './routes/AppRouter';
 
 function App() {
-  return <AppRouter />;
+  return (
+    <>
+      <GlobalSnackbarContainer />
+      <AppRouter />
+    </>
+  );
 }
 
 export default App;

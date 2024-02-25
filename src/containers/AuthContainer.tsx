@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginContainer from './LoginContainer';
+import RegisterContainer from './RegisterContainer';
 
 interface AuthContainerProps {
   formType: string;
@@ -21,7 +22,7 @@ function AuthContainer({ formType }: AuthContainerProps) {
       {currentForm === 'login' ? (
         <LoginContainer onToggleForm={toggleForm} />
       ) : (
-        <div>Register</div>
+        <RegisterContainer onToggleForm={toggleForm} />
       )}
     </div>
   );
