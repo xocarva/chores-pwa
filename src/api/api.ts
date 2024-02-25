@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useRedirectStore } from '../stores';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
@@ -19,6 +20,16 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      useRedirectStore.getState().setRedirectPath('/login');
+    }
     return Promise.reject(error);
   }
 );
