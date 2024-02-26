@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { useRedirectStore } from '../stores';
+import {
+  authenticationInterceptor,
+  handleErrorInterceptor,
+} from './interceptors';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL;
 
@@ -10,38 +13,5 @@ export const api = axios.create({
   },
 });
 
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // eslint-disable-next-line no-param-reassign
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      if (error.config.headers['X-Is-Login-Attempt'] === 'true') {
-        throw new Error('Credenciais incorrectas');
-      } else {
-        useRedirectStore.getState().setRedirectPath('/login');
-      }
-    } else if (
-      error.response &&
-      error.response.status === 409 &&
-      error.config.headers['X-Is-Register-Attempt'] === 'true'
-    ) {
-      throw new Error('Este email xa está rexistrado');
-    } else {
-      throw new Error('Algo foi mail, téntao de novo máis tarde');
-    }
-    return Promise.reject(error);
-  }
-);
+api.interceptors.request.use(authenticationInterceptor);
+api.interceptors.response.use((response) => response, handleErrorInterceptor);
