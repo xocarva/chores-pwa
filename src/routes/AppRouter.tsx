@@ -1,7 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { AuthPage, SpacesPage, NotFound } from '../pages';
+import { SpacesPage, NotFound } from '../pages';
 import { ProtectedRoute } from '../components';
-import { useAuth, useRedirect } from '../hooks';
+import { useRedirect } from '../hooks';
+import { AuthPage, useAuth } from '../auth';
 
 function AppRouter() {
   const { isAuthenticated } = useAuth();

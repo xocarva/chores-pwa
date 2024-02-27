@@ -1,6 +1,6 @@
-import { Header } from './components';
 import { GlobalSnackbarContainer } from './containers';
-import { useAuth } from './hooks';
+import { Header } from './components';
+import { useAuth } from './auth';
 import AppRouter from './routes/AppRouter';
 
 function App() {

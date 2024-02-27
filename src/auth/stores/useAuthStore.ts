@@ -1,5 +1,11 @@
 import { create } from 'zustand';
-import { AuthState } from '../types';
+
+interface AuthState {
+  isAuthenticated: boolean;
+  userName: string | null;
+  login: (userName: string, token: string) => void;
+  logout: () => void;
+}
 
 const initialState = {
   isAuthenticated: Boolean(localStorage.getItem('token')),
@@ -8,8 +14,9 @@ const initialState = {
 
 const useAuthStore = create<AuthState>((set) => ({
   ...initialState,
-  login: (userName: string) => {
+  login: (userName: string, token: string) => {
     localStorage.setItem('userName', userName);
+    localStorage.setItem('token', token);
     set({
       isAuthenticated: true,
       userName,

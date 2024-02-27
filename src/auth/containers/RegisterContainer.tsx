@@ -3,8 +3,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Alert, Snackbar } from '@mui/material';
 import { RegisterForm } from '../components';
-import { useAuth, useNotification } from '../hooks';
-import { RegisterFormInputs, registerSchema } from '../schemas';
+import { useNotification } from '../../hooks';
+import { useAuth } from '../hooks';
+import { RegisterUserData, registerUserDataSchema } from '../schemas';
 
 interface RegisterContainerProps {
   onToggleForm: () => void;
@@ -17,8 +18,8 @@ function RegisterContainer({ onToggleForm }: RegisterContainerProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterFormInputs>({
-    resolver: zodResolver(registerSchema),
+  } = useForm<RegisterUserData>({
+    resolver: zodResolver(registerUserDataSchema),
   });
   const { register: registerUser } = useAuth();
   const { showNotification } = useNotification();

@@ -2,25 +2,33 @@
 import { FormEventHandler } from 'react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { Button, TextField, Typography } from '@mui/material';
-import { LoginFormInputs } from '../schemas';
+import { RegisterUserData } from '../schemas';
 
-interface LoginFormProps {
+interface RegisterFormProps {
   onSubmit: FormEventHandler<HTMLFormElement>;
   onToggleForm: () => void;
-  register: UseFormRegister<LoginFormInputs>;
-  errors: FieldErrors<LoginFormInputs>;
+  register: UseFormRegister<RegisterUserData>;
+  errors: FieldErrors<RegisterUserData>;
   errorMessage: string;
 }
 
-function LoginForm({
+function RegisterForm({
   onSubmit,
   onToggleForm,
   register,
   errors,
   errorMessage,
-}: LoginFormProps) {
+}: RegisterFormProps) {
   return (
     <form onSubmit={onSubmit}>
+      <TextField
+        label="Nome"
+        type="name"
+        variant="outlined"
+        {...register('name')}
+        error={Boolean(errors.name)}
+        helperText={errors.name?.message}
+      />
       <TextField
         label="Email"
         variant="outlined"
@@ -37,10 +45,10 @@ function LoginForm({
         helperText={errors.password?.message}
       />
       {errorMessage && <Typography color="error">{errorMessage}</Typography>}
-      <Button type="submit">Login</Button>
-      <Button onClick={onToggleForm}>¿Non tes conta? Rexístrate</Button>
+      <Button type="submit">Rexistro</Button>
+      <Button onClick={onToggleForm}>¿Xa tes conta? Fai login</Button>
     </form>
   );
 }
 
-export default LoginForm;
+export default RegisterForm;

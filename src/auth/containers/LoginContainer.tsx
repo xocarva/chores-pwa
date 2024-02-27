@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginForm } from '../components';
 import { useAuth } from '../hooks';
-import { LoginFormInputs, loginSchema } from '../schemas';
+import { LoginUserData, loginUserDataSchema } from '../schemas';
 
 interface LoginContainerProps {
   onToggleForm: () => void;
@@ -15,8 +15,8 @@ function LoginContainer({ onToggleForm }: LoginContainerProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormInputs>({
-    resolver: zodResolver(loginSchema),
+  } = useForm<LoginUserData>({
+    resolver: zodResolver(loginUserDataSchema),
   });
   const { login } = useAuth();
 
