@@ -1,14 +1,14 @@
-import { GlobalSnackbarContainer } from './containers';
-import { Header } from './components';
-import { useAuth } from './auth';
-import AppRouter from './routes/AppRouter';
+import { useUser } from './user';
+import { AppRouter } from './routes';
+import { NotificationContainer } from './core';
+import { Header } from './layout';
 
 function App() {
-  const { userName, logout, isAuthenticated } = useAuth();
+  const { userName, logout, isAuthenticated } = useUser();
   return (
     <>
       {isAuthenticated && <Header userName={userName} onLogout={logout} />}
-      <GlobalSnackbarContainer />
+      <NotificationContainer />
       <AppRouter />
     </>
   );
