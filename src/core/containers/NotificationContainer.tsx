@@ -12,7 +12,13 @@ function NotificationContainer() {
   }, [open, hideNotification]);
 
   return (
-    <Snackbar open={open} autoHideDuration={3000} onClose={hideNotification}>
+    <Snackbar
+      open={open}
+      autoHideDuration={3000}
+      onClose={hideNotification}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      style={{ marginTop: '100px' }}
+    >
       <Alert
         onClose={hideNotification}
         severity={severity}
