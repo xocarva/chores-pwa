@@ -8,6 +8,7 @@ interface SpacesState {
   setSpaces: (spaces: Space[]) => void;
   setActiveSpaceId: (id: number) => void;
   setActiveSpaceTitle: (title: string) => void;
+  clearSpaces: () => void;
 }
 
 const useSpacesStore = create<SpacesState>((set) => ({
@@ -17,6 +18,12 @@ const useSpacesStore = create<SpacesState>((set) => ({
   setSpaces: (spaces) => set({ spaces }),
   setActiveSpaceId: (id) => set({ activeSpaceId: id }),
   setActiveSpaceTitle: (title) => set({ activeSpaceTitle: title }),
+  clearSpaces: () =>
+    set({
+      spaces: [],
+      activeSpaceId: null,
+      activeSpaceTitle: null,
+    }),
 }));
 
 export default useSpacesStore;

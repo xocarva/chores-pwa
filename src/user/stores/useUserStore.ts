@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 import { AuthenticatedUser } from '../api';
+import { useSpacesStore } from '../../spaces/stores';
+import { useTasksStore } from '../../tasks/stores';
 
 interface UserState {
   isAuthenticated: boolean;
@@ -30,6 +32,8 @@ const useUserStore = create<UserState>((set) => ({
       isAuthenticated: false,
       userName: null,
     });
+    useSpacesStore.getState().clearSpaces();
+    useTasksStore.getState().clearTasks();
   },
 }));
 
