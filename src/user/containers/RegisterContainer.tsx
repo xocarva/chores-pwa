@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Alert, Snackbar, Typography, Link as MuiLink } from '@mui/material';
@@ -9,7 +9,6 @@ import { useUser } from '../hooks';
 import { RegisterUserData, registerUserDataSchema } from '../schemas';
 
 function RegisterContainer() {
-  const [errorMessage, setErrorMessage] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const {
     register,
@@ -18,26 +17,22 @@ function RegisterContainer() {
   } = useForm<RegisterUserData>({
     resolver: zodResolver(registerUserDataSchema),
   });
-  const { register: registerUser } = useUser();
+  const { register: registerRequest, errorMessage } = useUser();
   const { showNotification } = useNotification();
 
-  const onSubmit = async (data: {
-    name: string;
-    email: string;
-    password: string;
-  }) => {
-    try {
-      await registerUser(data.name, data.email, data.password);
-      setErrorMessage('');
-      showNotification('Rexistro completado con éxito');
-    } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : 'Algo foi mal, téntao de novo máis tarde'
-      );
+  const onSubmit = async (userData: RegisterUserData) => {
+    registerRequest(userData);
+
+    if (!errorMessage) {
+      showNotification('Usuario rexistrado con éxito');
     }
   };
+
+  useEffect(() => {
+    if (errorMessage) {
+      showNotification(errorMessage, 'error');
+    }
+  }, [errorMessage, showNotification]);
 
   return (
     <>
@@ -45,7 +40,6 @@ function RegisterContainer() {
         onSubmit={handleSubmit(onSubmit)}
         register={register}
         errors={errors}
-        errorMessage={errorMessage}
       />
       <Typography variant="body2" sx={{ mt: 2 }}>
         ¿Xa tes conta?{' '}

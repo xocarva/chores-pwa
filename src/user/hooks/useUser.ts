@@ -1,16 +1,39 @@
 import { useState } from 'react';
-import { CustomError, UnauthorizedError } from '../../core';
+import {
+  ConflictError,
+  GenericError,
+  NotFoundError,
+  UnauthorizedError,
+  UnprocessableContentError,
+} from '../../core';
 import { loginRequest, registerRequest } from '../api';
 import { useUserStore } from '../stores';
-import { LoginUserData } from '../schemas';
+import { LoginUserData, RegisterUserData } from '../schemas';
 
 const useUser = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const register = async (name: string, email: string, password: string) => {
-    const { token } = await registerRequest({ name, email, password });
-    useUserStore.getState().login({ token, userName: name });
+  const register = async (userData: RegisterUserData) => {
+    setLoading(true);
+    setErrorMessage('');
+
+    try {
+      const user = await registerRequest(userData);
+      useUserStore
+        .getState()
+        .login({ token: user.token, userName: userData.name });
+    } catch (err) {
+      if (err instanceof ConflictError) {
+        setErrorMessage('Email xa rexistrado');
+      } else if (err instanceof UnprocessableContentError) {
+        setErrorMessage(`Datos non válidos: ${err.message}`);
+      } else if (err instanceof GenericError) {
+        setErrorMessage(err.message);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const login = async (userData: LoginUserData) => {
@@ -23,7 +46,11 @@ const useUser = () => {
     } catch (err) {
       if (err instanceof UnauthorizedError) {
         setErrorMessage('Credenciais incorrectas');
-      } else if (err instanceof CustomError) {
+      } else if (err instanceof NotFoundError) {
+        setErrorMessage('O usuario non existe');
+      } else if (err instanceof UnprocessableContentError) {
+        setErrorMessage(`Datos non válidos: ${err.message}`);
+      } else if (err instanceof GenericError) {
         setErrorMessage(err.message);
       }
     } finally {

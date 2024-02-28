@@ -1,17 +1,15 @@
-import { AxiosResponse } from 'axios';
-import { api } from '../../../core/api';
+import { AxiosError, AxiosResponse } from 'axios';
+import { api, axiosErrorToCustomError } from '../../../core';
 import { RegisterUserData } from '../../schemas';
 import { axiosResponseToAuthenticatedUser } from '../adapters';
 
 const registerRequest = async (userData: RegisterUserData) => {
-  const { name, email, password } = userData;
   return api
-    .post(
-      '/register',
-      { name, email, password },
-      { headers: { 'X-Is-Register-Attempt': 'true' } }
-    )
-    .then((res: AxiosResponse) => axiosResponseToAuthenticatedUser(res));
+    .post('/register', userData)
+    .then((res: AxiosResponse) => axiosResponseToAuthenticatedUser(res))
+    .catch((error: AxiosError) =>
+      Promise.reject(axiosErrorToCustomError(error))
+    );
 };
 
 export default registerRequest;

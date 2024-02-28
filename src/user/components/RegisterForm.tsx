@@ -1,22 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { FormEventHandler } from 'react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { RegisterUserData } from '../schemas';
 
 interface RegisterFormProps {
   onSubmit: FormEventHandler<HTMLFormElement>;
   register: UseFormRegister<RegisterUserData>;
   errors: FieldErrors<RegisterUserData>;
-  errorMessage: string;
 }
 
-function RegisterForm({
-  onSubmit,
-  register,
-  errors,
-  errorMessage,
-}: RegisterFormProps) {
+function RegisterForm({ onSubmit, register, errors }: RegisterFormProps) {
   return (
     <form onSubmit={onSubmit}>
       <TextField
@@ -42,7 +36,6 @@ function RegisterForm({
         error={Boolean(errors.password)}
         helperText={errors.password?.message}
       />
-      {errorMessage && <Typography color="error">{errorMessage}</Typography>}
       <Button type="submit">Rexistro</Button>
     </form>
   );
