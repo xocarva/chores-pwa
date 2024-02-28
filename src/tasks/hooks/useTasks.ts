@@ -1,25 +1,32 @@
-import { useEffect } from 'react';
-import { api } from '../../core/api';
-import { useSpacesStore } from '../../spaces';
+import { useEffect, useState } from 'react';
 import { useTasksStore } from '../stores';
+import { getTasks } from '../api';
 
-export const useTasks = () => {
-  const { activeSpaceId } = useSpacesStore();
+export const useTasks = (spaceId: number) => {
   const { setTasks, tasks } = useTasksStore();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchTasks = async (id: number) => {
-      const { data } = await api.get(`/spaces/${id}/tasks`);
-      setTasks(data.tasks);
-    };
+    if (spaceId) {
+      const fetchTasks = async () => {
+        setLoading(true);
+        try {
+          const fetchedTasks = await getTasks(spaceId);
+          setTasks(fetchedTasks);
+          setError(null);
+        } catch (err) {
+          if (err instanceof Error) {
+            setError(err.message || 'Produciuse un erro obtendo tarefas');
+          }
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    if (activeSpaceId) {
-      fetchTasks(activeSpaceId);
+      fetchTasks();
     }
-  }, [activeSpaceId, setTasks]);
+  }, [spaceId, setTasks]);
 
-  return {
-    tasks,
-    setTasks,
-  };
+  return { tasks, loading, error };
 };
