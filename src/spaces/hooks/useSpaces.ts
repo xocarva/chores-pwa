@@ -1,8 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { UnauthorizedError, useNotificationStore } from '../../core';
+import { useUserStore } from '../../user';
 import { getSpaces } from '../api';
 import { useSpacesStore } from '../stores';
 
 export const useSpaces = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const { showNotification } = useNotificationStore();
+  const navigate = useNavigate();
   const {
     spaces,
     setSpaces,
@@ -13,13 +20,29 @@ export const useSpaces = () => {
   } = useSpacesStore();
 
   useEffect(() => {
+    setLoading(true);
     const fetchSpaces = async () => {
-      const fetchedSpaces = await getSpaces();
-      setSpaces(fetchedSpaces);
+      try {
+        const fetchedSpaces = await getSpaces();
+        setSpaces(fetchedSpaces);
+        setErrorMessage('');
+      } catch (err) {
+        if (err instanceof UnauthorizedError) {
+          navigate('/login');
+          useUserStore.getState().logout();
+          showNotification('Sesión caducada', 'error');
+        } else {
+          setErrorMessage(
+            `Houbo un erro recuperando os espazos: ${(err as Error).message}`
+          );
+        }
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchSpaces();
-  }, [setSpaces]);
+  }, [setSpaces, navigate, showNotification]);
 
   return {
     spaces,
@@ -27,5 +50,7 @@ export const useSpaces = () => {
     activeSpaceTitle,
     setActiveSpaceTitle: (title: string) => setActiveSpaceTitle(title),
     setActiveSpaceId: (id: number) => setActiveSpaceId(id),
+    errorMessage,
+    loading,
   };
 };
