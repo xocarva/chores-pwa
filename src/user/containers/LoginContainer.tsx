@@ -1,15 +1,13 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Typography, Link as MuiLink } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 import { LoginForm } from '../components';
 import { useUser } from '../hooks';
 import { LoginUserData, loginUserDataSchema } from '../schemas';
 
-interface LoginContainerProps {
-  onToggleForm: () => void;
-}
-
-function LoginContainer({ onToggleForm }: LoginContainerProps) {
+function LoginContainer() {
   const [errorMessage, setErrorMessage] = useState('');
   const {
     register,
@@ -34,13 +32,20 @@ function LoginContainer({ onToggleForm }: LoginContainerProps) {
   };
 
   return (
-    <LoginForm
-      onSubmit={handleSubmit(onSubmit)}
-      register={register}
-      errors={errors}
-      onToggleForm={onToggleForm}
-      errorMessage={errorMessage}
-    />
+    <>
+      <LoginForm
+        onSubmit={handleSubmit(onSubmit)}
+        register={register}
+        errors={errors}
+        errorMessage={errorMessage}
+      />
+      <Typography variant="body2" sx={{ mt: 2 }}>
+        ¿Non tes conta?{' '}
+        <MuiLink component={RouterLink} to="/register" color="primary">
+          ¡Rexístrate!
+        </MuiLink>
+      </Typography>
+    </>
   );
 }
 
