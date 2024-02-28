@@ -1,9 +1,11 @@
 import { AxiosError } from 'axios';
 import {
   ConflictError,
-  CustomError,
   ForbiddenError,
+  GenericError,
+  NotFoundError,
   UnauthorizedError,
+  UnprocessableContentError,
 } from '../errors';
 
 interface ErrorResponse {
@@ -24,11 +26,17 @@ const axiosErrorToCustomError = (error: AxiosError) => {
     case 403:
       customError = new ForbiddenError(message);
       break;
+    case 404:
+      customError = new NotFoundError(message);
+      break;
     case 409:
       customError = new ConflictError(message);
       break;
+    case 422:
+      customError = new UnprocessableContentError(message);
+      break;
     default:
-      customError = new CustomError(message);
+      customError = new GenericError(message);
   }
 
   return customError;
