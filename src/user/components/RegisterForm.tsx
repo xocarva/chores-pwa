@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { FormEventHandler } from 'react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Button, TextField } from '@mui/material';
+import { Button, Grid, TextField } from '@mui/material';
 import { RegisterUserData } from '../schemas';
 
 interface RegisterFormProps {
@@ -13,30 +13,45 @@ interface RegisterFormProps {
 function RegisterForm({ onSubmit, register, errors }: RegisterFormProps) {
   return (
     <form onSubmit={onSubmit}>
-      <TextField
-        label="Nome"
-        type="name"
-        variant="outlined"
-        {...register('name')}
-        error={Boolean(errors.name)}
-        helperText={errors.name?.message}
-      />
-      <TextField
-        label="Email"
-        variant="outlined"
-        {...register('email')}
-        error={Boolean(errors.email)}
-        helperText={errors.email?.message}
-      />
-      <TextField
-        label="Contrasinal"
-        type="password"
-        variant="outlined"
-        {...register('password')}
-        error={Boolean(errors.password)}
-        helperText={errors.password?.message}
-      />
-      <Button type="submit">Rexistro</Button>
+      <Grid container direction="column" spacing={2}>
+        <Grid item>
+          <TextField
+            label="Nome"
+            type="name"
+            variant="outlined"
+            fullWidth
+            {...register('name')}
+            error={Boolean(errors.name)}
+            helperText={errors.name?.message}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            {...register('email')}
+            error={Boolean(errors.email)}
+            helperText={errors.email?.message}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            label="Contrasinal"
+            type="password"
+            variant="outlined"
+            fullWidth
+            {...register('password')}
+            error={Boolean(errors.password)}
+            helperText={errors.password?.message}
+          />
+        </Grid>
+        <Grid item>
+          <Button type="submit" variant="contained" fullWidth>
+            Rexistro
+          </Button>
+        </Grid>
+      </Grid>
     </form>
   );
 }
