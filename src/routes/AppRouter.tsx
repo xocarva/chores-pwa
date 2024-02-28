@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useRedirect } from '../core';
 import { NotFound } from '../layout/pages';
 import { LoginPage, RegisterPage, useUser } from '../user';
 import { SpacesPage } from '../spaces';
@@ -7,7 +6,6 @@ import ProtectedRoute from './ProtectedRoute';
 
 function AppRouter() {
   const { isAuthenticated } = useUser();
-  useRedirect();
 
   return (
     <Routes>
