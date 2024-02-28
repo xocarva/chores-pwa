@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useRedirect } from '../core';
 import { NotFound } from '../layout/pages';
-import { AuthPage, useUser } from '../user';
+import { LoginPage, RegisterPage, useUser } from '../user';
 import { SpacesPage } from '../spaces';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -13,32 +13,22 @@ function AppRouter() {
     <Routes>
       <Route
         path="/login"
-        element={
-          isAuthenticated ? (
-            <Navigate to="/spaces" />
-          ) : (
-            <AuthPage formType="login" />
-          )
-        }
+        element={isAuthenticated ? <Navigate to="/spaces" /> : <LoginPage />}
       />
       <Route
         path="/register"
-        element={
-          isAuthenticated ? (
-            <Navigate to="/spaces" />
-          ) : (
-            <AuthPage formType="register" />
-          )
-        }
+        element={isAuthenticated ? <Navigate to="/spaces" /> : <RegisterPage />}
       />
       <Route
-        path="/spaces/*"
+        path="/spaces"
         element={
           <ProtectedRoute>
             <SpacesPage />
           </ProtectedRoute>
         }
-      />
+      >
+        <Route path=":spaceId" element={<SpacesPage />} />
+      </Route>
       <Route
         path="/"
         element={<Navigate to={isAuthenticated ? '/spaces' : '/login'} />}

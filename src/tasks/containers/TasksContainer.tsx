@@ -1,9 +1,11 @@
+import { useParams } from 'react-router-dom';
 import { Grid } from '@mui/material';
-import { useTasks } from '../hooks';
 import { TaskCard } from '../components';
+import { useTasks } from '../hooks';
 
 function TasksContainer() {
-  const { tasks } = useTasks();
+  const { spaceId } = useParams();
+  const { tasks } = useTasks(Number(spaceId));
 
   const handleEdit = (taskId: number) => {
     console.log('Edit task', taskId);

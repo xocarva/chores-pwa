@@ -4,12 +4,10 @@ import { TasksContainer } from '../../tasks';
 import { useSpaces } from '../hooks';
 
 function SpacesContainer() {
-  const { spaces, setActiveSpaceTitle, activeSpaceTitle, setActiveSpaceId } =
-    useSpaces();
+  const { spaces, setActiveSpaceTitle, activeSpaceTitle } = useSpaces();
   const navigate = useNavigate();
 
   const handleElementClick = (id: number, title: string) => {
-    setActiveSpaceId(id);
     setActiveSpaceTitle(title);
     navigate(`/spaces/${id}`);
   };
