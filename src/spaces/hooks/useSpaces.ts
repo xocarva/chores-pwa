@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { api } from '../../core/api';
+import { getSpaces } from '../api';
 import { useSpacesStore } from '../stores';
 
 export const useSpaces = () => {
@@ -14,8 +14,8 @@ export const useSpaces = () => {
 
   useEffect(() => {
     const fetchSpaces = async () => {
-      const { data } = await api.get('/spaces');
-      setSpaces(data.spaces);
+      const fetchedSpaces = await getSpaces();
+      setSpaces(fetchedSpaces);
     };
 
     fetchSpaces();

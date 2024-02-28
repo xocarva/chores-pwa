@@ -1,20 +1,11 @@
 import { create } from 'zustand';
-
-interface SpaceSummary {
-  id: number;
-  title: string;
-  description: string;
-  users: {
-    id: number;
-    name: string;
-  };
-}
+import { Space } from '../api';
 
 interface SpacesState {
-  spaces: SpaceSummary[];
+  spaces: Space[];
   activeSpaceId: number | null;
   activeSpaceTitle: string | null;
-  setSpaces: (spaces: SpaceSummary[]) => void;
+  setSpaces: (spaces: Space[]) => void;
   setActiveSpaceId: (id: number) => void;
   setActiveSpaceTitle: (title: string) => void;
 }
