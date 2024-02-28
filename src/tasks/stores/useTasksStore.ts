@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Task } from '../types';
+import { Task } from '../api';
 
 interface UseTasksState {
   tasks: Task[];
