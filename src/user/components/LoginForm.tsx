@@ -8,15 +8,9 @@ interface LoginFormProps {
   onSubmit: FormEventHandler<HTMLFormElement>;
   register: UseFormRegister<LoginUserData>;
   errors: FieldErrors<LoginUserData>;
-  errorMessage: string;
 }
 
-function LoginForm({
-  onSubmit,
-  register,
-  errors,
-  errorMessage,
-}: LoginFormProps) {
+function LoginForm({ onSubmit, register, errors }: LoginFormProps) {
   return (
     <form onSubmit={onSubmit}>
       <TextField
@@ -34,7 +28,6 @@ function LoginForm({
         error={Boolean(errors.password)}
         helperText={errors.password?.message}
       />
-      {errorMessage && <Typography color="error">{errorMessage}</Typography>}
       <Button type="submit">Login</Button>
     </form>
   );
