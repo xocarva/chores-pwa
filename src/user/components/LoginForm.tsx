@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { FormEventHandler } from 'react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, Grid, TextField } from '@mui/material';
 import { LoginUserData } from '../schemas';
 
 interface LoginFormProps {
@@ -13,22 +13,34 @@ interface LoginFormProps {
 function LoginForm({ onSubmit, register, errors }: LoginFormProps) {
   return (
     <form onSubmit={onSubmit}>
-      <TextField
-        label="Email"
-        variant="outlined"
-        {...register('email')}
-        error={Boolean(errors.email)}
-        helperText={errors.email?.message}
-      />
-      <TextField
-        label="Contrasinal"
-        type="password"
-        variant="outlined"
-        {...register('password')}
-        error={Boolean(errors.password)}
-        helperText={errors.password?.message}
-      />
-      <Button type="submit">Login</Button>
+      <Grid container direction="column" spacing={2}>
+        <Grid item>
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            {...register('email')}
+            error={Boolean(errors.email)}
+            helperText={errors.email?.message}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            label="Contrasinal"
+            type="password"
+            variant="outlined"
+            fullWidth
+            {...register('password')}
+            error={Boolean(errors.password)}
+            helperText={errors.password?.message}
+          />
+        </Grid>
+        <Grid item>
+          <Button type="submit" variant="contained" fullWidth>
+            Login
+          </Button>
+        </Grid>
+      </Grid>
     </form>
   );
 }

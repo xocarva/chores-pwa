@@ -1,12 +1,12 @@
+import { useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Typography, Link as MuiLink } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import { useEffect } from 'react';
+import { Typography, Link as MuiLink, Grid } from '@mui/material';
+import { useNotification } from '../../core';
 import { LoginForm } from '../components';
 import { useUser } from '../hooks';
 import { LoginUserData, loginUserDataSchema } from '../schemas';
-import { useNotification } from '../../core';
 
 function LoginContainer() {
   const {
@@ -19,7 +19,8 @@ function LoginContainer() {
 
   const { login, errorMessage } = useUser();
   const { showNotification } = useNotification();
-  const onSubmit = async (userData: LoginUserData) => login(userData);
+
+  const onSubmit = (userData: LoginUserData) => login(userData);
 
   useEffect(() => {
     if (errorMessage) {
@@ -28,19 +29,27 @@ function LoginContainer() {
   }, [errorMessage, showNotification]);
 
   return (
-    <>
-      <LoginForm
-        onSubmit={handleSubmit(onSubmit)}
-        register={register}
-        errors={errors}
-      />
-      <Typography variant="body2" sx={{ mt: 2 }}>
-        ¿Non tes conta?{' '}
-        <MuiLink component={RouterLink} to="/register" color="primary">
-          ¡Rexístrate!
-        </MuiLink>
-      </Typography>
-    </>
+    <Grid
+      container
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      style={{ minHeight: '100vh' }}
+    >
+      <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
+        <LoginForm
+          onSubmit={handleSubmit(onSubmit)}
+          register={register}
+          errors={errors}
+        />
+        <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
+          ¿Non tes conta?{' '}
+          <MuiLink component={RouterLink} to="/register" color="primary">
+            ¡Rexístrate!
+          </MuiLink>
+        </Typography>
+      </Grid>
+    </Grid>
   );
 }
 
