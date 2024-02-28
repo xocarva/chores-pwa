@@ -1,17 +1,14 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Alert, Snackbar } from '@mui/material';
+import { Alert, Snackbar, Typography, Link as MuiLink } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import { useNotification } from '../../core';
 import { RegisterForm } from '../components';
 import { useUser } from '../hooks';
 import { RegisterUserData, registerUserDataSchema } from '../schemas';
-import { useNotification } from '../../core';
 
-interface RegisterContainerProps {
-  onToggleForm: () => void;
-}
-
-function RegisterContainer({ onToggleForm }: RegisterContainerProps) {
+function RegisterContainer() {
   const [errorMessage, setErrorMessage] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const {
@@ -48,9 +45,14 @@ function RegisterContainer({ onToggleForm }: RegisterContainerProps) {
         onSubmit={handleSubmit(onSubmit)}
         register={register}
         errors={errors}
-        onToggleForm={onToggleForm}
         errorMessage={errorMessage}
       />
+      <Typography variant="body2" sx={{ mt: 2 }}>
+        ¿Xa tes conta?{' '}
+        <MuiLink component={RouterLink} to="/login" color="primary">
+          ¡Loguéate!
+        </MuiLink>
+      </Typography>
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}

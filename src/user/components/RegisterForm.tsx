@@ -6,7 +6,6 @@ import { RegisterUserData } from '../schemas';
 
 interface RegisterFormProps {
   onSubmit: FormEventHandler<HTMLFormElement>;
-  onToggleForm: () => void;
   register: UseFormRegister<RegisterUserData>;
   errors: FieldErrors<RegisterUserData>;
   errorMessage: string;
@@ -14,7 +13,6 @@ interface RegisterFormProps {
 
 function RegisterForm({
   onSubmit,
-  onToggleForm,
   register,
   errors,
   errorMessage,
@@ -46,7 +44,6 @@ function RegisterForm({
       />
       {errorMessage && <Typography color="error">{errorMessage}</Typography>}
       <Button type="submit">Rexistro</Button>
-      <Button onClick={onToggleForm}>¿Xa tes conta? Fai login</Button>
     </form>
   );
 }
