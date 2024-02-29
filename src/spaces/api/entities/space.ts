@@ -4,7 +4,7 @@ interface Space {
   description: string;
   users: {
     id: number;
-    name: string;
+    admin: boolean;
   }[];
 }
 
