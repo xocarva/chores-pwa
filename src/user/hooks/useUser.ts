@@ -20,9 +20,11 @@ const useUser = () => {
 
     try {
       const user = await registerRequest(userData);
-      useUserStore
-        .getState()
-        .login({ token: user.token, userName: userData.name });
+      useUserStore.getState().login({
+        token: user.token,
+        userName: userData.name,
+        userId: user.userId,
+      });
     } catch (err) {
       if (err instanceof ConflictError) {
         setErrorMessage('Email xa rexistrado');
@@ -62,9 +64,10 @@ const useUser = () => {
     useUserStore.getState().logout();
   };
 
-  const { isAuthenticated, userName } = useUserStore((state) => ({
+  const { isAuthenticated, userName, userId } = useUserStore((state) => ({
     isAuthenticated: state.isAuthenticated,
     userName: state.userName,
+    userId: state.userId,
   }));
 
   return {
@@ -72,6 +75,7 @@ const useUser = () => {
     logout,
     isAuthenticated,
     userName,
+    userId,
     register,
     loading,
     errorMessage,

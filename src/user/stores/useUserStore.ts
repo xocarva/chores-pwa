@@ -6,6 +6,7 @@ import { useTasksStore } from '../../tasks/stores';
 interface UserState {
   isAuthenticated: boolean;
   userName: string | null;
+  userId: number | null;
   login: (user: AuthenticatedUser) => void;
   logout: () => void;
 }
@@ -13,6 +14,9 @@ interface UserState {
 const initialState = {
   isAuthenticated: Boolean(localStorage.getItem('token')),
   userName: localStorage.getItem('userName') || null,
+  userId: localStorage.getItem('userId')
+    ? Number(localStorage.getItem('userId'))
+    : null,
 };
 
 const useUserStore = create<UserState>((set) => ({
@@ -20,17 +24,21 @@ const useUserStore = create<UserState>((set) => ({
   login: (user) => {
     localStorage.setItem('userName', user.userName);
     localStorage.setItem('token', user.token);
+    localStorage.setItem('userId', String(user.userId));
     set({
       isAuthenticated: true,
       userName: user.userName,
+      userId: user.userId,
     });
   },
   logout: () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userName');
+    localStorage.removeItem('userId');
     set({
       isAuthenticated: false,
       userName: null,
+      userId: null,
     });
     useSpacesStore.getState().clearSpaces();
     useTasksStore.getState().clearTasks();
