@@ -1,3 +1,4 @@
 import getSpaces from './getSpaces.request';
+import createSpace from './createSpace.request';
 
-export { getSpaces };
+export { getSpaces, createSpace };

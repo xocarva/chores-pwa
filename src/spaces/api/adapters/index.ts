@@ -1,3 +1,4 @@
 import axiosResponseToSpaces from './axiosResponseToSpaces';
+import axiosResponseToCreateSpaceResponse from './axiosResponseToCreateSpaceResponse';
 
-export { axiosResponseToSpaces };
+export { axiosResponseToSpaces, axiosResponseToCreateSpaceResponse };
