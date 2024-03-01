@@ -1,3 +1,5 @@
 import SpacesContainer from './SpacesContainer';
+import SpacesTabsContainer from './SpacesTabsContainer';
+import AddSpaceContainer from './AddSpaceContainer';
 
-export { SpacesContainer };
+export { SpacesContainer, SpacesTabsContainer, AddSpaceContainer };

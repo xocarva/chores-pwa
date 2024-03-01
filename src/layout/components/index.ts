@@ -1,3 +1,4 @@
 import Header from './Header';
+import AddElementSpeedDial from './AddElementSpeedDial';
 
-export { Header };
+export { Header, AddElementSpeedDial };
