@@ -9,7 +9,7 @@ import {
   Grid,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import { useNotification } from '../../core';
+import { ChoresLogo, useNotification } from '../../core';
 import { RegisterForm } from '../components';
 import { useUser } from '../hooks';
 import { RegisterUserData, registerUserDataSchema } from '../schemas';
@@ -48,7 +48,8 @@ function RegisterContainer() {
       alignItems="center"
       style={{ minHeight: '100vh' }}
     >
-      <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
+      <ChoresLogo />
+      <Grid item xs={10} sm={10} md={10} lg={10} xl={10} mt={3}>
         <RegisterForm
           onSubmit={handleSubmit(onSubmit)}
           register={register}

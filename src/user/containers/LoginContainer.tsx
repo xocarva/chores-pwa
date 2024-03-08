@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Typography, Link as MuiLink, Grid } from '@mui/material';
-import { useNotification } from '../../core';
+import { ChoresLogo, useNotification } from '../../core';
 import { LoginForm } from '../components';
 import { useUser } from '../hooks';
 import { LoginUserData, loginUserDataSchema } from '../schemas';
@@ -36,7 +36,8 @@ function LoginContainer() {
       alignItems="center"
       style={{ minHeight: '100vh' }}
     >
-      <Grid item xs={10} sm={10} md={10} lg={10} xl={10}>
+      <ChoresLogo />
+      <Grid item xs={10} sm={10} md={10} lg={10} xl={10} mt={3}>
         <LoginForm
           onSubmit={handleSubmit(onSubmit)}
           register={register}

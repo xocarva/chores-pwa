@@ -1,5 +1,6 @@
 import { AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { ChoresLogo } from '../../core';
 
 interface HeaderProps {
   userName: string | null;
@@ -8,11 +9,9 @@ interface HeaderProps {
 
 function Header({ userName, onLogout }: HeaderProps) {
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ paddingY: 1.5 }}>
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Chores
-        </Typography>
+        <ChoresLogo grow color="white" />
         {userName && (
           <>
             <IconButton color="inherit">

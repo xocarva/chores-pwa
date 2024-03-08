@@ -1,3 +1,4 @@
 import NavBar from './NavBar';
+import ChoresLogo from './ChoresLogo';
 
-export { NavBar };
+export { ChoresLogo, NavBar };
