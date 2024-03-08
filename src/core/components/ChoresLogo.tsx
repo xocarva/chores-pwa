@@ -27,7 +27,7 @@ function ChoresLogo({ color = 'primary', grow = false }: ChoresLogoProps) {
 }
 
 ChoresLogo.propTypes = {
-  color: PropTypes.oneOf(['primary', 'secondary']),
+  color: PropTypes.oneOf(['primary', 'white']),
   grow: PropTypes.bool,
 };
 
