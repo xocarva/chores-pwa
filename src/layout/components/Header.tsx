@@ -1,4 +1,12 @@
-import { AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Menu,
+  MenuItem,
+} from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { ChoresLogo } from '../../core';
 
@@ -8,26 +16,58 @@ interface HeaderProps {
 }
 
 function Header({ userName, onLogout }: HeaderProps) {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <AppBar position="static" sx={{ paddingY: 1.5 }}>
       <Toolbar>
         <ChoresLogo grow color="white" />
         {userName && (
           <>
-            <IconButton color="inherit">
-              <AccountCircleIcon />
-            </IconButton>
-
-            <Typography
-              variant="subtitle1"
-              component="div"
-              sx={{ marginRight: 2 }}
+            <Typography variant="subtitle1">Ola, {userName}</Typography>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
             >
-              {userName}
-            </Typography>
-            <Button color="inherit" onClick={onLogout}>
-              Logout
-            </Button>
+              <AccountCircleIcon fontSize="large" />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={open}
+              onClose={handleClose}
+            >
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  onLogout();
+                }}
+              >
+                Logout
+              </MenuItem>
+            </Menu>
           </>
         )}
       </Toolbar>
