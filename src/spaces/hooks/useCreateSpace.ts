@@ -20,7 +20,7 @@ export const useCreateSpace = () => {
       const space = await createSpaceRequest(spaceData);
       useSpacesStore.getState().setSpaces([...spaces, space]);
 
-      showNotification('Espacio creado con éxito', 'success');
+      showNotification('Espazo creado con éxito', 'success');
       navigate(`/spaces/${space.id}`);
     } catch (err) {
       if (err instanceof UnauthorizedError) {
