@@ -32,10 +32,10 @@ function TaskCard({ task, onEdit, onDelete, onComplete }: TaskCardProps) {
       <Card
         key={task.id}
         sx={{
-          border: 1, // Establece el ancho del borde
-          borderColor: 'primary.main', // Utiliza el color primary del tema para el borde
           ':hover': {
-            boxShadow: 6, // Opcional: Aumenta la sombra al pasar el mouse para un efecto visual
+            boxShadow: 6,
+            border: 1,
+            borderColor: 'primary.main',
           },
         }}
       >
