@@ -65,7 +65,7 @@ function Header({ userName, onLogout }: HeaderProps) {
                   onLogout();
                 }}
               >
-                Logout
+                Saír
               </MenuItem>
             </Menu>
           </>
