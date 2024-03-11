@@ -1,34 +1,32 @@
 import { AddTask, PostAdd } from '@mui/icons-material';
 import { useState } from 'react';
 import { Modal } from '@mui/material';
-import { TasksContainer } from '../../tasks';
+import { useParams } from 'react-router-dom';
+import { AddTaskContainer, TasksContainer } from '../../tasks';
 import SpacesTabsContainer from './SpacesTabsContainer';
 import AddElementSpeedDial from '../../layout/components/AddElementSpeedDial';
-import { useUser } from '../../user';
-import { useCreateSpace } from '../hooks/useCreateSpace';
 import AddSpaceContainer from './AddSpaceContainer';
 
 function SpacesContainer() {
-  const { userId } = useUser();
-  const { createSpace } = useCreateSpace();
+  const { spaceId } = useParams();
   const [openSpaceModal, setOpenSpaceModal] = useState(false);
+  const [openTaskModal, setOpenTaskModal] = useState(false);
   const handleOpenSpaceModal = () => setOpenSpaceModal(true);
   const handleCloseSpaceModal = () => setOpenSpaceModal(false);
-
-  const handleAddSpace = () => {
-    if (userId) {
-      createSpace({
-        description: 'Unha descripción',
-        title: 'Un título',
-        users: [{ id: userId, admin: true }],
-      });
-    }
-  };
+  const handleOpenTaskModal = () => setOpenTaskModal(true);
+  const handleCloseTaskModal = () => setOpenTaskModal(false);
 
   const actions = [
-    { icon: <AddTask />, name: 'nova tarefa', onClick: handleAddSpace },
     { icon: <PostAdd />, name: 'novo espazo', onClick: handleOpenSpaceModal },
   ];
+
+  if (spaceId) {
+    actions.push({
+      icon: <AddTask />,
+      name: 'nova tarefa',
+      onClick: handleOpenTaskModal,
+    });
+  }
 
   return (
     <>
@@ -53,6 +51,32 @@ function SpacesContainer() {
           }}
         >
           <AddSpaceContainer onCloseModal={handleCloseSpaceModal} />
+        </div>
+      </Modal>
+      <Modal
+        open={openTaskModal}
+        onClose={handleCloseTaskModal}
+        aria-labelledby="modal-add-task"
+        aria-describedby="create-task-form-modal"
+      >
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: 'white',
+            boxShadow: '24',
+            padding: '20px',
+            outline: 'none',
+            maxWidth: '500px',
+            width: '90%',
+          }}
+        >
+          <AddTaskContainer
+            spaceId={Number(spaceId)}
+            onCloseModal={handleCloseTaskModal}
+          />
         </div>
       </Modal>
       <SpacesTabsContainer />

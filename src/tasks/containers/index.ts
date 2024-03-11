@@ -1,3 +1,4 @@
 import TasksContainer from './TasksContainer';
+import AddTaskContainer from './AddTaskContainer';
 
-export { TasksContainer };
+export { TasksContainer, AddTaskContainer };
