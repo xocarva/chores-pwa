@@ -1,15 +1,16 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Space } from '../../spaces/api';
 import { AddTaskForm } from '../components';
 import { useCreateTask } from '../hooks';
 import { CreateTaskData, createTaskSchema } from '../schemas';
 
 interface AddTaskContainerProps {
   onCloseModal: () => void;
-  spaceId: number;
+  space: Space;
 }
 
-function AddTaskContainer({ onCloseModal, spaceId }: AddTaskContainerProps) {
+function AddTaskContainer({ onCloseModal, space }: AddTaskContainerProps) {
   const {
     register,
     handleSubmit,
@@ -18,13 +19,13 @@ function AddTaskContainer({ onCloseModal, spaceId }: AddTaskContainerProps) {
   } = useForm<CreateTaskData>({
     resolver: zodResolver(createTaskSchema),
     defaultValues: {
-      spaceId,
+      spaceId: space.id,
       users: [],
       date: null,
     },
   });
 
-  const { createTask, errorMessage } = useCreateTask(spaceId);
+  const { createTask, errorMessage } = useCreateTask(space.id);
 
   const onSubmit = (taskData: CreateTaskData) => {
     createTask(taskData);
@@ -33,19 +34,16 @@ function AddTaskContainer({ onCloseModal, spaceId }: AddTaskContainerProps) {
     }
   };
 
-  const users = [
-    { id: 1, name: 'User1' },
-    { id: 2, name: 'User2' },
-  ];
-
   return (
-    <AddTaskForm
-      onSubmit={handleSubmit(onSubmit)}
-      register={register}
-      errors={errors}
-      users={users}
-      control={control}
-    />
+    space && (
+      <AddTaskForm
+        onSubmit={handleSubmit(onSubmit)}
+        register={register}
+        errors={errors}
+        users={space.users}
+        control={control}
+      />
+    )
   );
 }
 

@@ -6,6 +6,7 @@ import { AddTaskContainer, TasksContainer } from '../../tasks';
 import SpacesTabsContainer from './SpacesTabsContainer';
 import AddElementSpeedDial from '../../layout/components/AddElementSpeedDial';
 import AddSpaceContainer from './AddSpaceContainer';
+import { useSpace } from '../hooks';
 
 function SpacesContainer() {
   const { spaceId } = useParams();
@@ -15,6 +16,8 @@ function SpacesContainer() {
   const handleCloseSpaceModal = () => setOpenSpaceModal(false);
   const handleOpenTaskModal = () => setOpenTaskModal(true);
   const handleCloseTaskModal = () => setOpenTaskModal(false);
+
+  const { space } = useSpace(Number(spaceId));
 
   const actions = [
     { icon: <PostAdd />, name: 'novo espazo', onClick: handleOpenSpaceModal },
@@ -73,10 +76,12 @@ function SpacesContainer() {
             width: '90%',
           }}
         >
-          <AddTaskContainer
-            spaceId={Number(spaceId)}
-            onCloseModal={handleCloseTaskModal}
-          />
+          {space && (
+            <AddTaskContainer
+              space={space}
+              onCloseModal={handleCloseTaskModal}
+            />
+          )}
         </div>
       </Modal>
       <SpacesTabsContainer />
