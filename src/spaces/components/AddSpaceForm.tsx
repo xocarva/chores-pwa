@@ -12,12 +12,13 @@ interface AddSpaceProps {
 
 function AddSpaceForm({ onSubmit, register, errors }: AddSpaceProps) {
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} noValidate>
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <TextField
             label="Título"
             variant="outlined"
+            required
             fullWidth
             {...register('title')}
             error={Boolean(errors.title)}

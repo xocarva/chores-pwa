@@ -12,12 +12,13 @@ interface LoginFormProps {
 
 function LoginForm({ onSubmit, register, errors }: LoginFormProps) {
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} noValidate>
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <TextField
             label="Email"
             variant="outlined"
+            required
             fullWidth
             {...register('email')}
             error={Boolean(errors.email)}
@@ -29,6 +30,7 @@ function LoginForm({ onSubmit, register, errors }: LoginFormProps) {
             label="Contrasinal"
             type="password"
             variant="outlined"
+            required
             fullWidth
             {...register('password')}
             error={Boolean(errors.password)}

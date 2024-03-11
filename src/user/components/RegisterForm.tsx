@@ -12,7 +12,7 @@ interface RegisterFormProps {
 
 function RegisterForm({ onSubmit, register, errors }: RegisterFormProps) {
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} noValidate>
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <TextField
@@ -29,6 +29,7 @@ function RegisterForm({ onSubmit, register, errors }: RegisterFormProps) {
           <TextField
             label="Email"
             variant="outlined"
+            required
             fullWidth
             {...register('email')}
             error={Boolean(errors.email)}
@@ -40,6 +41,7 @@ function RegisterForm({ onSubmit, register, errors }: RegisterFormProps) {
             label="Contrasinal"
             type="password"
             variant="outlined"
+            required
             fullWidth
             {...register('password')}
             error={Boolean(errors.password)}
