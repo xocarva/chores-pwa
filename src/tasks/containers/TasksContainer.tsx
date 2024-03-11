@@ -2,10 +2,12 @@ import { useParams } from 'react-router-dom';
 import { CircularProgress, Grid } from '@mui/material';
 import { TaskCard } from '../components';
 import { useTasks } from '../hooks';
+import { useUser } from '../../user';
 
 function TasksContainer() {
   const { spaceId } = useParams();
   const { tasks, loading } = useTasks(Number(spaceId));
+  const { userId } = useUser();
 
   const handleEdit = (taskId: number) => {
     console.log('Edit task', taskId);
@@ -34,15 +36,19 @@ function TasksContainer() {
 
   return (
     <Grid container spacing={2} marginTop={2}>
-      {tasks.map((task) => (
-        <TaskCard
-          key={task.id}
-          task={task}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onComplete={handleComplete}
-        />
-      ))}
+      {tasks.map(
+        (task) =>
+          userId && (
+            <TaskCard
+              key={task.id}
+              userId={userId}
+              task={task}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              onComplete={handleComplete}
+            />
+          )
+      )}
     </Grid>
   );
 }

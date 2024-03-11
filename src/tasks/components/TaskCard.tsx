@@ -20,13 +20,25 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Task } from '../api';
 
 interface TaskCardProps {
+  userId: number;
   task: Task;
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
   onComplete: (id: number) => void;
 }
 
-function TaskCard({ task, onEdit, onDelete, onComplete }: TaskCardProps) {
+function TaskCard({
+  userId,
+  task,
+  onEdit,
+  onDelete,
+  onComplete,
+}: TaskCardProps) {
+  const usersOrdered = [
+    task.users.find((user) => user.id === userId),
+    ...task.users.filter((user) => user.id !== userId),
+  ];
+
   return (
     <Grid item xs={12} sm={6} md={4} lg={3} key={task.id}>
       <Card
@@ -55,6 +67,7 @@ function TaskCard({ task, onEdit, onDelete, onComplete }: TaskCardProps) {
               }
               titleTypographyProps={{
                 variant: 'h6',
+                color: 'primary.main',
               }}
             />
           </AccordionSummary>
@@ -70,11 +83,20 @@ function TaskCard({ task, onEdit, onDelete, onComplete }: TaskCardProps) {
         </Accordion>
         <CardActions sx={{ justifyContent: 'space-between' }}>
           <AvatarGroup max={3}>
-            {task.users.map((user) => (
-              <Avatar key={user.id} title={user.name}>
-                {user.name[0].toUpperCase()}
-              </Avatar>
-            ))}
+            {usersOrdered.map(
+              (user) =>
+                user && (
+                  <Avatar
+                    key={user.id}
+                    title={user.name}
+                    sx={{
+                      bgcolor: user.id === userId ? 'primary.main' : undefined,
+                    }}
+                  >
+                    {user.name[0].toUpperCase()}
+                  </Avatar>
+                )
+            )}
           </AvatarGroup>
           <Box>
             <IconButton
@@ -95,6 +117,7 @@ function TaskCard({ task, onEdit, onDelete, onComplete }: TaskCardProps) {
               aria-label="complete"
               title="marcar como completada"
               onClick={() => onComplete(task.id)}
+              color="primary"
             >
               <CheckCircleOutlineIcon fontSize="large" />
             </IconButton>
