@@ -20,6 +20,7 @@ function AddTaskContainer({ onCloseModal, spaceId }: AddTaskContainerProps) {
     defaultValues: {
       spaceId,
       users: [],
+      date: null,
     },
   });
 

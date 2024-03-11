@@ -41,6 +41,9 @@ export default defineConfig({
       // devOptions: { enabled: true }, //*enable to generate PWA files in development mode
     }),
   ],
+  optimizeDeps: {
+    include: ['@emotion/styled'],
+  },
   test: {
     globals: true,
     environment: 'jsdom',

@@ -7,6 +7,7 @@ import {
   UseFormRegister,
 } from 'react-hook-form';
 import { Autocomplete, Button, Grid, TextField } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers';
 import { CreateTaskData } from '../schemas';
 import { User } from '../../user';
 
@@ -79,6 +80,30 @@ function AddTaskForm({
                     helperText={errors.users?.message}
                   />
                 )}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item>
+          <Controller
+            name="date"
+            control={control}
+            render={({ field }) => (
+              <DatePicker
+                label="Data límite"
+                value={field.value}
+                inputRef={field.ref}
+                onChange={(date) => {
+                  const dateValue = date ? (date as any).toDate() : null;
+                  field.onChange(dateValue);
+                }}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    helperText: errors.date?.message,
+                    error: Boolean(errors.date),
+                  },
+                }}
               />
             )}
           />
