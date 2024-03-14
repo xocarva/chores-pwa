@@ -2,13 +2,15 @@ import { AddTask, PostAdd } from '@mui/icons-material';
 import { useState } from 'react';
 import { Modal } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { AddTaskContainer, TasksContainer } from '../../tasks';
+import { AddTaskContainer, CreateTaskData, TasksContainer } from '../../tasks';
 import SpacesTabsContainer from './SpacesTabsContainer';
 import AddElementSpeedDial from '../../layout/components/AddElementSpeedDial';
 import AddSpaceContainer from './AddSpaceContainer';
 import { useSpace } from '../hooks';
 
 function SpacesContainer() {
+  const [taskData, setTaskData] = useState<CreateTaskData>();
+  const [taskId, setTaskId] = useState<number>();
   const { spaceId } = useParams();
   const [openSpaceModal, setOpenSpaceModal] = useState(false);
   const [openTaskModal, setOpenTaskModal] = useState(false);
@@ -78,6 +80,8 @@ function SpacesContainer() {
         >
           {space && (
             <AddTaskContainer
+              taskId={taskId}
+              taskData={taskData}
               space={space}
               onCloseModal={handleCloseTaskModal}
             />
@@ -85,7 +89,11 @@ function SpacesContainer() {
         </div>
       </Modal>
       <SpacesTabsContainer />
-      <TasksContainer />
+      <TasksContainer
+        setTaskData={setTaskData}
+        setTaskId={setTaskId}
+        onOpenEditModal={handleOpenTaskModal}
+      />
       <AddElementSpeedDial actions={actions} />
     </>
   );

@@ -1,4 +1,4 @@
 import TaskCard from './TaskCard';
-import AddTaskForm from './AddTaskForm';
+import TaskForm from './TaskForm';
 
-export { TaskCard, AddTaskForm };
+export { TaskCard, TaskForm };

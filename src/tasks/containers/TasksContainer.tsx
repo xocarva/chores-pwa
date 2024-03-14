@@ -3,15 +3,22 @@ import { CircularProgress, Grid } from '@mui/material';
 import { TaskCard } from '../components';
 import { useTasks } from '../hooks';
 import { useUser } from '../../user';
+import { CreateTaskData } from '../schemas';
 
-function TasksContainer() {
+interface TaskContainerProps {
+  onOpenEditModal: () => void;
+  setTaskData: React.Dispatch<React.SetStateAction<CreateTaskData | undefined>>;
+  setTaskId: React.Dispatch<React.SetStateAction<number | undefined>>;
+}
+
+function TasksContainer({
+  onOpenEditModal,
+  setTaskData,
+  setTaskId,
+}: TaskContainerProps) {
   const { spaceId } = useParams();
   const { tasks, loading } = useTasks(Number(spaceId));
   const { userId } = useUser();
-
-  const handleEdit = (taskId: number) => {
-    console.log('Edit task', taskId);
-  };
 
   const handleDelete = (taskId: number) => {
     console.log('Delete task', taskId);
@@ -19,6 +26,12 @@ function TasksContainer() {
 
   const handleComplete = (taskId: number) => {
     console.log('Complete task', taskId);
+  };
+
+  const handleEdit = (id: number, task: CreateTaskData) => {
+    setTaskId(id);
+    setTaskData(task);
+    onOpenEditModal();
   };
 
   if (loading)

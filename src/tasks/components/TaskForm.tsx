@@ -8,10 +8,11 @@ import {
 } from 'react-hook-form';
 import { Autocomplete, Button, Grid, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
+import { Dayjs } from 'dayjs';
 import { CreateTaskData } from '../schemas';
 import { User } from '../../user';
 
-interface AddTaskProps {
+interface TaskProps {
   onSubmit: FormEventHandler<HTMLFormElement>;
   register: UseFormRegister<CreateTaskData>;
   errors: FieldErrors<CreateTaskData>;
@@ -19,13 +20,7 @@ interface AddTaskProps {
   users: User[];
 }
 
-function AddTaskForm({
-  onSubmit,
-  register,
-  errors,
-  control,
-  users,
-}: AddTaskProps) {
+function TaskForm({ onSubmit, register, errors, control, users }: TaskProps) {
   return (
     <form onSubmit={onSubmit} noValidate>
       <Grid container direction="column" spacing={2}>
@@ -88,14 +83,13 @@ function AddTaskForm({
           <Controller
             name="date"
             control={control}
-            render={({ field }) => (
+            render={({ field: { onChange, value, ref } }) => (
               <DatePicker
                 label="Data límite"
-                value={field.value}
-                inputRef={field.ref}
-                onChange={(date) => {
-                  const dateValue = date ? (date as any).toDate() : null;
-                  field.onChange(dateValue);
+                value={value}
+                inputRef={ref}
+                onChange={(newValue: Dayjs | null) => {
+                  onChange(newValue);
                 }}
                 slotProps={{
                   textField: {
@@ -110,7 +104,7 @@ function AddTaskForm({
         </Grid>
         <Grid item>
           <Button type="submit" variant="contained" fullWidth>
-            Crear tarefa
+            Gardar tarefa
           </Button>
         </Grid>
       </Grid>
@@ -118,4 +112,4 @@ function AddTaskForm({
   );
 }
 
-export default AddTaskForm;
+export default TaskForm;

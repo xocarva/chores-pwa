@@ -22,7 +22,7 @@ import { Task } from '../api';
 interface TaskCardProps {
   userId: number;
   task: Task;
-  onEdit: (id: number) => void;
+  onEdit: (id: number, task: any) => void;
   onDelete: (id: number) => void;
   onComplete: (id: number) => void;
 }
@@ -35,8 +35,8 @@ function TaskCard({
   onComplete,
 }: TaskCardProps) {
   const usersOrdered = [
-    task.users.find((user) => user.id === userId),
-    ...task.users.filter((user) => user.id !== userId),
+    task.users?.find((user) => user.id === userId),
+    ...(task.users?.filter((user) => user.id !== userId) || []),
   ];
 
   return (
@@ -62,7 +62,7 @@ function TaskCard({
               title={task.title}
               subheader={
                 task.date
-                  ? `Límite: ${new Date(task.date).toLocaleDateString()}`
+                  ? `Límite: ${task.date.format('DD/MM/YYYY')}`
                   : 'Sen data límite'
               }
               titleTypographyProps={{
@@ -109,7 +109,14 @@ function TaskCard({
             <IconButton
               aria-label="settings"
               title="editar"
-              onClick={() => onEdit(task.id)}
+              onClick={() =>
+                onEdit(task.id, {
+                  title: task.title,
+                  description: task.description,
+                  users: task.users.map((user) => ({ id: user.id })),
+                  date: task.date,
+                })
+              }
             >
               <EditIcon />
             </IconButton>

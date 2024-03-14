@@ -1,7 +1,9 @@
+import { Dayjs } from 'dayjs';
+
 export interface Task {
   id: number;
   title: string;
-  date?: Date;
+  date?: Dayjs;
   completed: boolean;
   description?: string;
   users: {
