@@ -20,12 +20,8 @@ function TasksContainer({
   const { tasks, loading } = useTasks(Number(spaceId));
   const { userId } = useUser();
 
-  const handleDelete = (taskId: number) => {
-    console.log('Delete task', taskId);
-  };
-
-  const handleComplete = (taskId: number) => {
-    console.log('Complete task', taskId);
+  const handleDelete = (id: number) => {
+    console.log('Delete task', id);
   };
 
   const handleEdit = (id: number, task: CreateTaskData) => {
@@ -51,14 +47,15 @@ function TasksContainer({
     <Grid container spacing={2} marginTop={2}>
       {tasks.map(
         (task) =>
-          userId && (
+          userId &&
+          spaceId && (
             <TaskCard
               key={task.id}
               userId={userId}
               task={task}
               onEdit={handleEdit}
               onDelete={handleDelete}
-              onComplete={handleComplete}
+              spaceId={Number(spaceId)}
             />
           )
       )}

@@ -35,6 +35,10 @@ export const useUpdateTask = (taskId?: number) => {
         setErrorMessage(
           `Houbo un erro actualizando a tarefa: ${(err as Error).message}`
         );
+        showNotification(
+          `Houbo un erro actualizando a tarefa: ${(err as Error).message}`,
+          'error'
+        );
       }
     } finally {
       setLoading(false);
