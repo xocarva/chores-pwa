@@ -9,7 +9,11 @@ interface ChoresLogoProps {
 
 function ChoresLogo({ color = 'primary', grow = false }: ChoresLogoProps) {
   return (
-    <Stack flexDirection="row" sx={{ flexGrow: grow ? 1 : 0 }}>
+    <Stack
+      flexDirection="row"
+      alignItems="center"
+      sx={{ flexGrow: grow ? 1 : 0 }}
+    >
       <Typography
         variant="h3"
         color={color}
