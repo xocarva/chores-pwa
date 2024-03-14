@@ -20,10 +20,6 @@ function TasksContainer({
   const { tasks, loading } = useTasks(Number(spaceId));
   const { userId } = useUser();
 
-  const handleDelete = (id: number) => {
-    console.log('Delete task', id);
-  };
-
   const handleEdit = (id: number, task: CreateTaskData) => {
     setTaskId(id);
     setTaskData(task);
@@ -54,7 +50,6 @@ function TasksContainer({
               userId={userId}
               task={task}
               onEdit={handleEdit}
-              onDelete={handleDelete}
               spaceId={Number(spaceId)}
             />
           )

@@ -18,23 +18,23 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Task } from '../api';
-import { useUpdateTask } from '../hooks';
+import { useDeleteTask, useUpdateTask } from '../hooks';
 
 interface TaskCardProps {
   userId: number;
   task: Task;
   onEdit: (id: number, task: any) => void;
-  onDelete: (id: number) => void;
   spaceId: number;
 }
 
-function TaskCard({ userId, task, onEdit, onDelete, spaceId }: TaskCardProps) {
+function TaskCard({ userId, task, onEdit, spaceId }: TaskCardProps) {
   const usersOrdered = [
     task.users?.find((user) => user.id === userId),
     ...(task.users?.filter((user) => user.id !== userId) || []),
   ];
 
   const { updateTask } = useUpdateTask(task.id);
+  const { deleteTask } = useDeleteTask();
 
   const handleComplete = () => {
     updateTask({
@@ -44,6 +44,8 @@ function TaskCard({ userId, task, onEdit, onDelete, spaceId }: TaskCardProps) {
       completed: true,
     });
   };
+
+  const handleDelete = () => deleteTask(task.id);
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3} key={task.id}>
@@ -129,7 +131,7 @@ function TaskCard({ userId, task, onEdit, onDelete, spaceId }: TaskCardProps) {
                 <IconButton
                   aria-label="delete"
                   title="eliminar"
-                  onClick={() => onDelete(task.id)}
+                  onClick={handleDelete}
                 >
                   <DeleteIcon />
                 </IconButton>
