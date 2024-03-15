@@ -1,9 +1,17 @@
 import { useParams } from 'react-router-dom';
-import { CircularProgress, Grid } from '@mui/material';
+import {
+  CircularProgress,
+  FormControlLabel,
+  Grid,
+  Stack,
+  Switch,
+} from '@mui/material';
+import { useState } from 'react';
 import { TaskCard } from '../components';
 import { useTasks } from '../hooks';
 import { useUser } from '../../user';
 import { CreateTaskData } from '../schemas';
+import { Task } from '../api';
 
 interface TaskContainerProps {
   onOpenEditModal: () => void;
@@ -26,6 +34,9 @@ function TasksContainer({
     onOpenEditModal();
   };
 
+  const [hideCompleted, setHideCompleted] = useState(true);
+  const [showOnlyUserTasks, setShowOnlyUserTasks] = useState(false);
+
   if (loading)
     return (
       <Grid
@@ -39,22 +50,58 @@ function TasksContainer({
       </Grid>
     );
 
+  const getShowedTasks = () => {
+    let showedTasks: Task[] = tasks;
+    if (hideCompleted) {
+      showedTasks = showedTasks.filter((task) => !task.completed);
+    }
+    if (showOnlyUserTasks) {
+      showedTasks = showedTasks.filter((task) =>
+        task.users.some((user) => user.id === userId)
+      );
+    }
+
+    return showedTasks;
+  };
+
   return (
-    <Grid container spacing={2} marginTop={2}>
-      {tasks.map(
-        (task) =>
-          userId &&
-          spaceId && (
-            <TaskCard
-              key={task.id}
-              userId={userId}
-              task={task}
-              onEdit={handleEdit}
-              spaceId={Number(spaceId)}
-            />
-          )
-      )}
-    </Grid>
+    <Stack mt={3}>
+      <FormControlLabel
+        control={
+          <Switch
+            checked={hideCompleted}
+            onChange={(event) => setHideCompleted(event.target.checked)}
+          />
+        }
+        label="Ocultar completadas"
+        sx={{ marginLeft: 2 }}
+      />
+      <FormControlLabel
+        control={
+          <Switch
+            checked={showOnlyUserTasks}
+            onChange={(event) => setShowOnlyUserTasks(event.target.checked)}
+          />
+        }
+        label="Amosar só as asignadas a min"
+        sx={{ marginLeft: 2 }}
+      />
+      <Grid container spacing={2} marginTop={2}>
+        {getShowedTasks().map(
+          (task) =>
+            userId &&
+            spaceId && (
+              <TaskCard
+                key={task.id}
+                userId={userId}
+                task={task}
+                onEdit={handleEdit}
+                spaceId={Number(spaceId)}
+              />
+            )
+        )}
+      </Grid>
+    </Stack>
   );
 }
 
