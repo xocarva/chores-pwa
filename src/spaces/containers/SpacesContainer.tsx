@@ -36,14 +36,14 @@ function SpacesContainer() {
   if (spaceId) {
     actions.push(
       {
+        icon: <PersonAddAlt1Outlined />,
+        name: 'Nova invitación',
+        onClick: () => createInvitation(Number(spaceId)),
+      },
+      {
         icon: <AddTask />,
         name: 'Nova tarefa',
         onClick: handleOpenTaskModal,
-      },
-      {
-        icon: <PersonAddAlt1Outlined />,
-        name: 'Engadir usuario',
-        onClick: () => createInvitation(Number(spaceId)),
       }
     );
   }
