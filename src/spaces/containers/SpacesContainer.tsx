@@ -2,16 +2,12 @@ import { AddTask, PersonAddAlt1Outlined, PostAdd } from '@mui/icons-material';
 import { useState } from 'react';
 import { FormControlLabel, Modal, Stack, Switch } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import {
-  AddTaskContainer,
-  CreateTaskData,
-  Task,
-  TasksContainer,
-} from '../../tasks';
+import { AddTaskContainer, CreateTaskData, TasksContainer } from '../../tasks';
 import SpacesTabsContainer from './SpacesTabsContainer';
 import AddElementSpeedDial from '../../layout/components/AddElementSpeedDial';
 import AddSpaceContainer from './AddSpaceContainer';
 import { useSpace } from '../hooks';
+import { useCreateInvitation } from '../../invitations/hooks';
 
 function SpacesContainer() {
   const { spaceId } = useParams();
@@ -31,6 +27,7 @@ function SpacesContainer() {
   };
 
   const { space } = useSpace(Number(spaceId));
+  const { createInvitation } = useCreateInvitation();
 
   const actions = [
     { icon: <PostAdd />, name: 'Novo espazo', onClick: handleOpenSpaceModal },
@@ -46,7 +43,7 @@ function SpacesContainer() {
       {
         icon: <PersonAddAlt1Outlined />,
         name: 'Engadir usuario',
-        onClick: () => console.log('Engade usuario'),
+        onClick: () => createInvitation(Number(spaceId)),
       }
     );
   }
@@ -107,26 +104,30 @@ function SpacesContainer() {
         </div>
       </Modal>
       <SpacesTabsContainer />
-      <FormControlLabel
-        control={
-          <Switch
-            checked={hideCompleted}
-            onChange={(event) => setHideCompleted(event.target.checked)}
+      {spaceId && (
+        <>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={hideCompleted}
+                onChange={(event) => setHideCompleted(event.target.checked)}
+              />
+            }
+            label="Ocultar completadas"
+            sx={{ marginLeft: 2, marginTop: 2 }}
           />
-        }
-        label="Ocultar completadas"
-        sx={{ marginLeft: 2, marginTop: 2 }}
-      />
-      <FormControlLabel
-        control={
-          <Switch
-            checked={showOnlyUserTasks}
-            onChange={(event) => setShowOnlyUserTasks(event.target.checked)}
+          <FormControlLabel
+            control={
+              <Switch
+                checked={showOnlyUserTasks}
+                onChange={(event) => setShowOnlyUserTasks(event.target.checked)}
+              />
+            }
+            label="Amosar só as asignadas a min"
+            sx={{ marginLeft: 2 }}
           />
-        }
-        label="Amosar só as asignadas a min"
-        sx={{ marginLeft: 2 }}
-      />
+        </>
+      )}
       <TasksContainer
         setTaskData={setTaskData}
         setTaskId={setTaskId}
