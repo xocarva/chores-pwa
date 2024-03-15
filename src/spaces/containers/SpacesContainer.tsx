@@ -17,7 +17,11 @@ function SpacesContainer() {
   const handleOpenSpaceModal = () => setOpenSpaceModal(true);
   const handleCloseSpaceModal = () => setOpenSpaceModal(false);
   const handleOpenTaskModal = () => setOpenTaskModal(true);
-  const handleCloseTaskModal = () => setOpenTaskModal(false);
+  const handleCloseTaskModal = () => {
+    setOpenTaskModal(false);
+    setTaskData(undefined);
+    setTaskId(undefined);
+  };
 
   const { space } = useSpace(Number(spaceId));
 
