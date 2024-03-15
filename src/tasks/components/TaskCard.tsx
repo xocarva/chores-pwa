@@ -12,11 +12,18 @@ import {
   AccordionDetails,
   AvatarGroup,
   Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useState } from 'react';
 import { Task } from '../api';
 import { useDeleteTask, useUpdateTask } from '../hooks';
 
@@ -28,13 +35,23 @@ interface TaskCardProps {
 }
 
 function TaskCard({ userId, task, onEdit, spaceId }: TaskCardProps) {
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [openCompleteDialog, setOpenCompleteDialog] = useState(false);
   const usersOrdered = [
     task.users?.find((user) => user.id === userId),
     ...(task.users?.filter((user) => user.id !== userId) || []),
   ];
 
-  const { updateTask } = useUpdateTask(task.id);
-  const { deleteTask } = useDeleteTask();
+  const { updateTask, errorMessage: updateErrorMessage } = useUpdateTask(
+    task.id
+  );
+  const { deleteTask, errorMessage: deleteErrorMessage } = useDeleteTask();
+
+  const handleOpenDeleteDialog = () => setOpenDeleteDialog(true);
+  const handleCloseDeleteDialog = () => setOpenDeleteDialog(false);
+
+  const handleOpenCompleteDialog = () => setOpenCompleteDialog(true);
+  const handleCloseCompleteDialog = () => setOpenCompleteDialog(false);
 
   const handleComplete = () => {
     updateTask({
@@ -43,9 +60,18 @@ function TaskCard({ userId, task, onEdit, spaceId }: TaskCardProps) {
       users: task.users,
       completed: true,
     });
+
+    if (!updateErrorMessage) {
+      handleCloseCompleteDialog();
+    }
   };
 
-  const handleDelete = () => deleteTask(task.id);
+  const handleDelete = () => {
+    deleteTask(task.id);
+    if (!deleteErrorMessage) {
+      handleCloseDeleteDialog();
+    }
+  };
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3} key={task.id}>
@@ -131,7 +157,7 @@ function TaskCard({ userId, task, onEdit, spaceId }: TaskCardProps) {
                 <IconButton
                   aria-label="delete"
                   title="eliminar"
-                  onClick={handleDelete}
+                  onClick={handleOpenDeleteDialog}
                 >
                   <DeleteIcon />
                 </IconButton>
@@ -152,7 +178,7 @@ function TaskCard({ userId, task, onEdit, spaceId }: TaskCardProps) {
                 <IconButton
                   aria-label="complete"
                   title="marcar como completada"
-                  onClick={handleComplete}
+                  onClick={handleOpenCompleteDialog}
                   color="primary"
                 >
                   <CheckCircleOutlineIcon fontSize="large" />
@@ -162,6 +188,47 @@ function TaskCard({ userId, task, onEdit, spaceId }: TaskCardProps) {
           )}
         </CardActions>
       </Card>
+      <Dialog
+        open={openDeleteDialog}
+        onClose={handleCloseDeleteDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Eliminar tarefa</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            ¿Estás seguro de que desexas eliminar esta tarefa?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog}>Cancelar</Button>
+          <Button onClick={handleDelete} autoFocus>
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openCompleteDialog}
+        onClose={handleCloseCompleteDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Marcar como completada
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            ¿Estás seguro de que desexas marcar esta tarefa como completada?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseCompleteDialog}>Cancelar</Button>
+          <Button onClick={handleComplete} autoFocus>
+            Confirmar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 }
