@@ -1,17 +1,24 @@
-import { AddTask, PostAdd } from '@mui/icons-material';
+import { AddTask, PersonAddAlt1Outlined, PostAdd } from '@mui/icons-material';
 import { useState } from 'react';
-import { Modal } from '@mui/material';
+import { FormControlLabel, Modal, Stack, Switch } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { AddTaskContainer, CreateTaskData, TasksContainer } from '../../tasks';
+import {
+  AddTaskContainer,
+  CreateTaskData,
+  Task,
+  TasksContainer,
+} from '../../tasks';
 import SpacesTabsContainer from './SpacesTabsContainer';
 import AddElementSpeedDial from '../../layout/components/AddElementSpeedDial';
 import AddSpaceContainer from './AddSpaceContainer';
 import { useSpace } from '../hooks';
 
 function SpacesContainer() {
+  const { spaceId } = useParams();
   const [taskData, setTaskData] = useState<CreateTaskData>();
   const [taskId, setTaskId] = useState<number>();
-  const { spaceId } = useParams();
+  const [hideCompleted, setHideCompleted] = useState(true);
+  const [showOnlyUserTasks, setShowOnlyUserTasks] = useState(false);
   const [openSpaceModal, setOpenSpaceModal] = useState(false);
   const [openTaskModal, setOpenTaskModal] = useState(false);
   const handleOpenSpaceModal = () => setOpenSpaceModal(true);
@@ -26,19 +33,26 @@ function SpacesContainer() {
   const { space } = useSpace(Number(spaceId));
 
   const actions = [
-    { icon: <PostAdd />, name: 'novo espazo', onClick: handleOpenSpaceModal },
+    { icon: <PostAdd />, name: 'Novo espazo', onClick: handleOpenSpaceModal },
   ];
 
   if (spaceId) {
-    actions.push({
-      icon: <AddTask />,
-      name: 'nova tarefa',
-      onClick: handleOpenTaskModal,
-    });
+    actions.push(
+      {
+        icon: <AddTask />,
+        name: 'Nova tarefa',
+        onClick: handleOpenTaskModal,
+      },
+      {
+        icon: <PersonAddAlt1Outlined />,
+        name: 'Engadir usuario',
+        onClick: () => console.log('Engade usuario'),
+      }
+    );
   }
 
   return (
-    <>
+    <Stack mt={3}>
       <Modal
         open={openSpaceModal}
         onClose={handleCloseSpaceModal}
@@ -93,13 +107,35 @@ function SpacesContainer() {
         </div>
       </Modal>
       <SpacesTabsContainer />
+      <FormControlLabel
+        control={
+          <Switch
+            checked={hideCompleted}
+            onChange={(event) => setHideCompleted(event.target.checked)}
+          />
+        }
+        label="Ocultar completadas"
+        sx={{ marginLeft: 2, marginTop: 2 }}
+      />
+      <FormControlLabel
+        control={
+          <Switch
+            checked={showOnlyUserTasks}
+            onChange={(event) => setShowOnlyUserTasks(event.target.checked)}
+          />
+        }
+        label="Amosar só as asignadas a min"
+        sx={{ marginLeft: 2 }}
+      />
       <TasksContainer
         setTaskData={setTaskData}
         setTaskId={setTaskId}
         onOpenEditModal={handleOpenTaskModal}
+        hideCompleted={hideCompleted}
+        showOnlyUserTasks={showOnlyUserTasks}
       />
       <AddElementSpeedDial actions={actions} />
-    </>
+    </Stack>
   );
 }
 

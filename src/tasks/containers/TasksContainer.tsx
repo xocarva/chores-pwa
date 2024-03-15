@@ -17,12 +17,16 @@ interface TaskContainerProps {
   onOpenEditModal: () => void;
   setTaskData: React.Dispatch<React.SetStateAction<CreateTaskData | undefined>>;
   setTaskId: React.Dispatch<React.SetStateAction<number | undefined>>;
+  hideCompleted: boolean;
+  showOnlyUserTasks: boolean;
 }
 
 function TasksContainer({
   onOpenEditModal,
   setTaskData,
   setTaskId,
+  showOnlyUserTasks,
+  hideCompleted,
 }: TaskContainerProps) {
   const { spaceId } = useParams();
   const { tasks, loading } = useTasks(Number(spaceId));
@@ -33,9 +37,6 @@ function TasksContainer({
     setTaskData(task);
     onOpenEditModal();
   };
-
-  const [hideCompleted, setHideCompleted] = useState(true);
-  const [showOnlyUserTasks, setShowOnlyUserTasks] = useState(false);
 
   if (loading)
     return (
@@ -65,43 +66,21 @@ function TasksContainer({
   };
 
   return (
-    <Stack mt={3}>
-      <FormControlLabel
-        control={
-          <Switch
-            checked={hideCompleted}
-            onChange={(event) => setHideCompleted(event.target.checked)}
-          />
-        }
-        label="Ocultar completadas"
-        sx={{ marginLeft: 2 }}
-      />
-      <FormControlLabel
-        control={
-          <Switch
-            checked={showOnlyUserTasks}
-            onChange={(event) => setShowOnlyUserTasks(event.target.checked)}
-          />
-        }
-        label="Amosar só as asignadas a min"
-        sx={{ marginLeft: 2 }}
-      />
-      <Grid container spacing={2} marginTop={2}>
-        {getShowedTasks().map(
-          (task) =>
-            userId &&
-            spaceId && (
-              <TaskCard
-                key={task.id}
-                userId={userId}
-                task={task}
-                onEdit={handleEdit}
-                spaceId={Number(spaceId)}
-              />
-            )
-        )}
-      </Grid>
-    </Stack>
+    <Grid container spacing={2} marginTop={2}>
+      {getShowedTasks().map(
+        (task) =>
+          userId &&
+          spaceId && (
+            <TaskCard
+              key={task.id}
+              userId={userId}
+              task={task}
+              onEdit={handleEdit}
+              spaceId={Number(spaceId)}
+            />
+          )
+      )}
+    </Grid>
   );
 }
 
