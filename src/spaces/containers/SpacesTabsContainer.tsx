@@ -16,22 +16,22 @@ function SpacesTabsContainer() {
     justifyContent: 'center',
   };
 
+  if (spaces.length === 0) return null;
+
   return (
-    spaces.length > 0 && (
-      <div style={tabsStyle}>
-        <Tabs
-          value={spaceId ?? false}
-          onChange={handleChange}
-          variant="scrollable"
-          scrollButtons
-          allowScrollButtonsMobile
-        >
-          {spaces.map((space) => (
-            <Tab key={space.id} label={space.title} value={String(space.id)} />
-          ))}
-        </Tabs>
-      </div>
-    )
+    <div style={tabsStyle}>
+      <Tabs
+        value={spaceId ?? false}
+        onChange={handleChange}
+        variant="scrollable"
+        scrollButtons
+        allowScrollButtonsMobile
+      >
+        {spaces.map((space) => (
+          <Tab key={space.id} label={space.title} value={String(space.id)} />
+        ))}
+      </Tabs>
+    </div>
   );
 }
 
