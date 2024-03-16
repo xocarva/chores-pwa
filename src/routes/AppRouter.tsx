@@ -3,6 +3,7 @@ import { NotFound } from '../layout/pages';
 import { LoginPage, RegisterPage, useUser } from '../user';
 import { SpacesPage } from '../spaces';
 import ProtectedRoute from './ProtectedRoute';
+import { InvitationPage } from '../invitations';
 
 function AppRouter() {
   const { isAuthenticated } = useUser();
@@ -27,6 +28,7 @@ function AppRouter() {
       >
         <Route path=":spaceId" element={<SpacesPage />} />
       </Route>
+      <Route path="/invitations/:token" element={<InvitationPage />} />
       <Route
         path="/"
         element={<Navigate to={isAuthenticated ? '/spaces' : '/login'} />}

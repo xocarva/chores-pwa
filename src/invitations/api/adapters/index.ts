@@ -1,3 +1,4 @@
 import axiosResponseToCreateInvitation from './axiosResponseToCreateInvitation';
+import axiosResponseToAcceptInvitation from './axiosResponseToAcceptInvitation';
 
-export { axiosResponseToCreateInvitation };
+export { axiosResponseToCreateInvitation, axiosResponseToAcceptInvitation };

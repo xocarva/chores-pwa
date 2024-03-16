@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { AuthenticatedUser } from '../api';
 import { useSpacesStore } from '../../spaces/stores';
 import { useTasksStore } from '../../tasks/stores';
+import { useInvitationStore } from '../../invitations/stores';
 
 interface UserState {
   isAuthenticated: boolean;
@@ -42,6 +43,7 @@ const useUserStore = create<UserState>((set) => ({
     });
     useSpacesStore.getState().clearSpaces();
     useTasksStore.getState().clearTasks();
+    useInvitationStore.getState().deleteInviteToken();
   },
 }));
 

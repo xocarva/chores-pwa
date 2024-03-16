@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { useState } from 'react';
 import {
   ConflictError,
@@ -6,13 +7,16 @@ import {
   UnauthorizedError,
   UnprocessableContentError,
 } from '../../core';
+import { useAcceptInvitation } from '../../invitations';
 import { loginRequest, registerRequest } from '../api';
 import { useUserStore } from '../stores';
 import { LoginUserData, RegisterUserData } from '../schemas';
+import { useInvitationStore } from '../../invitations/stores';
 
 const useUser = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const { acceptInvitation } = useAcceptInvitation();
 
   const register = async (userData: RegisterUserData) => {
     setLoading(true);
@@ -25,6 +29,12 @@ const useUser = () => {
         userName: userData.name,
         userId: user.userId,
       });
+
+      const { inviteToken } = useInvitationStore.getState();
+
+      if (inviteToken) {
+        await acceptInvitation(inviteToken);
+      }
     } catch (err) {
       if (err instanceof ConflictError) {
         setErrorMessage('Email xa rexistrado');
@@ -45,6 +55,12 @@ const useUser = () => {
     try {
       const user = await loginRequest(userData);
       useUserStore.getState().login(user);
+
+      const { inviteToken } = useInvitationStore.getState();
+
+      if (inviteToken) {
+        await acceptInvitation(inviteToken);
+      }
     } catch (err) {
       if (err instanceof UnauthorizedError) {
         setErrorMessage('Credenciais incorrectas');

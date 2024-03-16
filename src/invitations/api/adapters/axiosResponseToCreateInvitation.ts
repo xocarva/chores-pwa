@@ -4,7 +4,7 @@ const axiosResponseToCreateInvitation = (res: AxiosResponse): string => {
   const url = import.meta.env.VITE_APP_URL;
   const { token } = res.data;
 
-  return `${url}/${token}`;
+  return `${url}/invitations/${token}`;
 };
 
 export default axiosResponseToCreateInvitation;
