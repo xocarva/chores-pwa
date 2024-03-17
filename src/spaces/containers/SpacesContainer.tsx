@@ -1,6 +1,13 @@
 import { AddTask, PersonAddAlt1Outlined, PostAdd } from '@mui/icons-material';
 import { useState } from 'react';
-import { FormControlLabel, Modal, Stack, Switch } from '@mui/material';
+import {
+  Alert,
+  FormControlLabel,
+  Modal,
+  Stack,
+  Switch,
+  Typography,
+} from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { AddTaskContainer, CreateTaskData, TasksContainer } from '../../tasks';
 import SpacesTabsContainer from './SpacesTabsContainer';
@@ -104,6 +111,14 @@ function SpacesContainer() {
         </div>
       </Modal>
       <SpacesTabsContainer />
+      {!spaceId && (
+        <Alert severity="info" sx={{ m: 2 }}>
+          <Typography variant="h6">¡Benvido/a!</Typography>
+          <Typography>
+            Selecciona un espazo existente ou crea un novo para comezar.
+          </Typography>
+        </Alert>
+      )}
       {spaceId && (
         <>
           <FormControlLabel
