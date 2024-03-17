@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -9,7 +9,7 @@ import {
   Grid,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import { ChoresLogo, useNotification } from '../../core';
+import { ChoresLogo } from '../../core';
 import { RegisterForm } from '../components';
 import { useUser } from '../hooks';
 import { RegisterUserData, registerUserDataSchema } from '../schemas';
@@ -24,21 +24,10 @@ function RegisterContainer() {
     resolver: zodResolver(registerUserDataSchema),
   });
   const { register: registerRequest, errorMessage } = useUser();
-  const { showNotification } = useNotification();
 
   const onSubmit = async (userData: RegisterUserData) => {
-    registerRequest(userData);
-
-    if (!errorMessage) {
-      showNotification('Usuario rexistrado con éxito');
-    }
+    await registerRequest(userData);
   };
-
-  useEffect(() => {
-    if (errorMessage) {
-      showNotification(errorMessage, 'error');
-    }
-  }, [errorMessage, showNotification]);
 
   return (
     <Grid
@@ -54,6 +43,7 @@ function RegisterContainer() {
           onSubmit={handleSubmit(onSubmit)}
           register={register}
           errors={errors}
+          errorMessage={errorMessage}
         />
         <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
           ¿Xa tes conta?{' '}

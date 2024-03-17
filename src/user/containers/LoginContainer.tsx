@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Typography, Link as MuiLink, Grid } from '@mui/material';
-import { ChoresLogo, useNotification } from '../../core';
+import { ChoresLogo } from '../../core';
 import { LoginForm } from '../components';
 import { useUser } from '../hooks';
 import { LoginUserData, loginUserDataSchema } from '../schemas';
@@ -18,15 +17,8 @@ function LoginContainer() {
   });
 
   const { login, errorMessage } = useUser();
-  const { showNotification } = useNotification();
 
   const onSubmit = (userData: LoginUserData) => login(userData);
-
-  useEffect(() => {
-    if (errorMessage) {
-      showNotification(errorMessage, 'error');
-    }
-  }, [errorMessage, showNotification]);
 
   return (
     <Grid
@@ -42,6 +34,7 @@ function LoginContainer() {
           onSubmit={handleSubmit(onSubmit)}
           register={register}
           errors={errors}
+          errorMessage={errorMessage}
         />
         <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
           ¿Non tes conta?{' '}

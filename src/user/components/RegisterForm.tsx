@@ -1,18 +1,29 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { FormEventHandler } from 'react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Button, Grid, TextField } from '@mui/material';
+import { Alert, Button, Grid, TextField } from '@mui/material';
 import { RegisterUserData } from '../schemas';
 
 interface RegisterFormProps {
   onSubmit: FormEventHandler<HTMLFormElement>;
   register: UseFormRegister<RegisterUserData>;
   errors: FieldErrors<RegisterUserData>;
+  errorMessage?: string;
 }
 
-function RegisterForm({ onSubmit, register, errors }: RegisterFormProps) {
+function RegisterForm({
+  onSubmit,
+  register,
+  errors,
+  errorMessage,
+}: RegisterFormProps) {
   return (
     <form onSubmit={onSubmit} noValidate>
+      {errorMessage && (
+        <Alert severity="error" sx={{ my: 2 }}>
+          {errorMessage}
+        </Alert>
+      )}
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <TextField
@@ -57,5 +68,9 @@ function RegisterForm({ onSubmit, register, errors }: RegisterFormProps) {
     </form>
   );
 }
+
+RegisterForm.defaultProps = {
+  errorMessage: undefined,
+};
 
 export default RegisterForm;
