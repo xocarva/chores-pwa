@@ -7,6 +7,8 @@ import {
   Typography,
   Link as MuiLink,
   Grid,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { ChoresLogo } from '../../core';
@@ -15,6 +17,8 @@ import { useUser } from '../hooks';
 import { RegisterUserData, registerUserDataSchema } from '../schemas';
 
 function RegisterContainer() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const {
     register,
@@ -38,7 +42,13 @@ function RegisterContainer() {
       style={{ minHeight: '100vh' }}
     >
       <ChoresLogo />
-      <Grid item xs={10} sm={10} md={10} lg={10} xl={10} mt={3}>
+      <Grid
+        item
+        xs={12}
+        sm={10}
+        style={{ width: isMobile ? '100%' : 'auto', minWidth: '300px' }}
+        mt={2}
+      >
         <RegisterForm
           onSubmit={handleSubmit(onSubmit)}
           register={register}

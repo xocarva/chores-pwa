@@ -1,7 +1,13 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Typography, Link as MuiLink, Grid } from '@mui/material';
+import {
+  Typography,
+  Link as MuiLink,
+  Grid,
+  useTheme,
+  useMediaQuery,
+} from '@mui/material';
 import { ChoresLogo } from '../../core';
 import { LoginForm } from '../components';
 import { useUser } from '../hooks';
@@ -16,8 +22,9 @@ function LoginContainer() {
     resolver: zodResolver(loginUserDataSchema),
   });
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const { login, errorMessage } = useUser();
-
   const onSubmit = (userData: LoginUserData) => login(userData);
 
   return (
@@ -29,14 +36,23 @@ function LoginContainer() {
       style={{ minHeight: '100vh' }}
     >
       <ChoresLogo />
-      <Grid item xs={10} sm={10} md={10} lg={10} xl={10} mt={3}>
+      <Grid
+        item
+        xs={12}
+        sm={10}
+        style={{ width: isMobile ? '100%' : 'auto', minWidth: '300px' }}
+        mt={2}
+      >
         <LoginForm
           onSubmit={handleSubmit(onSubmit)}
           register={register}
           errors={errors}
           errorMessage={errorMessage}
         />
-        <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
+        <Typography
+          variant="body2"
+          sx={{ mt: 2, textAlign: 'center', width: '100%' }}
+        >
           ¿Non tes conta?{' '}
           <MuiLink component={RouterLink} to="/register" color="primary">
             ¡Rexístrate!
