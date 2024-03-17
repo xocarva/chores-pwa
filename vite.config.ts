@@ -14,9 +14,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
-        name: 'React PWA Skeleton',
-        short_name: 'RS',
-        description: 'A React PWA skeleton',
+        name: 'Chores',
+        short_name: 'Chores',
+        description: 'Unha aplicación web de xestión de quefaceres',
         theme_color: '#ffffff',
         start_url: '/',
         icons: [
