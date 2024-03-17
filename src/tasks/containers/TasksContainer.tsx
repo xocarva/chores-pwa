@@ -1,12 +1,5 @@
 import { useParams } from 'react-router-dom';
-import {
-  CircularProgress,
-  FormControlLabel,
-  Grid,
-  Stack,
-  Switch,
-} from '@mui/material';
-import { useState } from 'react';
+import { CircularProgress, Grid } from '@mui/material';
 import { TaskCard } from '../components';
 import { useTasks } from '../hooks';
 import { useUser } from '../../user';
