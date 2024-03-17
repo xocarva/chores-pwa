@@ -17,15 +17,7 @@ export const useCreateInvitation = () => {
     try {
       const url = await createInvitationRequest(spaceId);
       setInvitationUrl(url);
-      if (navigator.clipboard) {
-        await navigator.clipboard.writeText(url);
-        showNotification(
-          'Copiouse a url da invitación no portapapeis',
-          'success'
-        );
-      } else {
-        setManualCopyDialogOpen(true);
-      }
+      setManualCopyDialogOpen(true);
     } catch (err) {
       if (err instanceof UnauthorizedError) {
         navigate('/login');
