@@ -15,6 +15,7 @@ import AddElementSpeedDial from '../../layout/components/AddElementSpeedDial';
 import AddSpaceContainer from './AddSpaceContainer';
 import { useSpace } from '../hooks';
 import { useCreateInvitation } from '../../invitations/hooks';
+import { ManualCopyDialog } from '../../core';
 
 function SpacesContainer() {
   const { spaceId } = useParams();
@@ -34,7 +35,14 @@ function SpacesContainer() {
   };
 
   const { space } = useSpace(Number(spaceId));
-  const { createInvitation } = useCreateInvitation();
+  const {
+    createInvitation,
+    invitationUrl,
+    manualCopyDialogOpen,
+    setManualCopyDialogOpen,
+  } = useCreateInvitation();
+
+  const handleCloseManualCopyDialog = () => setManualCopyDialogOpen(false);
 
   const actions = [
     { icon: <PostAdd />, name: 'Novo espazo', onClick: handleOpenSpaceModal },
@@ -151,6 +159,11 @@ function SpacesContainer() {
         showOnlyUserTasks={showOnlyUserTasks}
       />
       <AddElementSpeedDial actions={actions} />
+      <ManualCopyDialog
+        open={manualCopyDialogOpen}
+        onClose={handleCloseManualCopyDialog}
+        url={invitationUrl}
+      />
     </Stack>
   );
 }
