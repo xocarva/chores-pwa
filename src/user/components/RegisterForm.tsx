@@ -29,6 +29,7 @@ function RegisterForm({
           <TextField
             label="Nome"
             type="name"
+            required
             variant="outlined"
             fullWidth
             {...register('name')}
