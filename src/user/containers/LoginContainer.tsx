@@ -33,7 +33,7 @@ function LoginContainer() {
       direction="column"
       justifyContent="center"
       alignItems="center"
-      style={{ minHeight: '100vh' }}
+      style={{ minHeight: '90vh' }}
     >
       <ChoresLogo />
       <Grid
